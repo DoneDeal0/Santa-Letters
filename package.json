@@ -1,0 +1,15 @@
+{
+  "name": "santa-letters",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "DoneDeal0 (https://www.github.com/donedeal0)",
+  "source": "index.html",
+  "scripts": {
+    "start": "parcel --open",
+    "build": "parcel build",
+    "tsc": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "parcel": "^2.0.1"
+  }
+}
