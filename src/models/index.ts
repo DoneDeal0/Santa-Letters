@@ -1,3 +1,5 @@
+export type AudioFile = HTMLAudioElement;
+
 export type IFlake = {
   x: number;
   y: number;
@@ -13,6 +15,8 @@ export type ILetter = {
   caught: boolean;
   draw: () => void;
 };
+
+export type Picture = HTMLImageElement;
 
 export type ISanta = {
   x: number;
@@ -50,5 +54,3 @@ export type ISnow = {
   draw: () => void;
 };
 
-export type AudioFile = HTMLAudioElement;
-export type Picture = HTMLImageElement;

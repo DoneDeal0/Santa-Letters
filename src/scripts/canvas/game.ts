@@ -24,7 +24,6 @@ function drawGame() {
       newWidth,
       HEIGHT * 0.7
     );
-    //canvasGame.font = "bold 14px sans-serif;";
     canvasGame.font = "bold 25px sans-serif";
     canvasGame.fillText("PRESS ENTER TO PLAY AGAIN", WIDTH / 2, 70);
     santa.stopFlash();
