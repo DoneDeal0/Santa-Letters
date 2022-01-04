@@ -1,6 +1,6 @@
 import { santaImg } from "../data/images";
-import { canvasGame } from "../canvas";
-import { HEIGHT } from "../data";
+import { canvasGame } from "../canvas/index";
+import { HEIGHT } from "../data/index";
 
 export const santa = {
   x: 300,

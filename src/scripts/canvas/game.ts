@@ -1,22 +1,12 @@
-import { canvasGame } from ".";
+import { canvasGame } from "./index";
 import { snowImg, gameoverImg, winImg } from "../data/images";
-import { HEIGHT, WIDTH, COLORS } from "../data";
+import { HEIGHT, WIDTH, COLORS } from "../data/index";
 import { score } from "../global-state";
-import { scoreBox } from "../score";
-import { drawLetters } from "../letters";
+import { scoreBox } from "../score/index";
+import { drawLetters } from "../letters/index";
 import { drawAngryLetters } from "../letters/angry";
-import { santa } from "../santa";
-
-const snow = {
-  x: 0,
-  y: HEIGHT - 235,
-  width: WIDTH,
-  height: 300,
-  image: snowImg,
-  draw() {
-    canvasGame.drawImage(this.image, this.x, this.y, this.width, this.height);
-  },
-};
+import { santa } from "../santa/index";
+import { snow } from "./snow";
 
 function drawGame() {
   canvasGame.fillStyle = COLORS.SKY_BLUE;

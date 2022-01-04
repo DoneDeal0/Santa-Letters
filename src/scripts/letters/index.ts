@@ -1,11 +1,11 @@
 import { score, updateScore } from "../global-state";
-import { HEIGHT, WIDTH } from "../data";
+import { HEIGHT, WIDTH } from "../data/index";
 import { letterImg, letterCatch } from "../data/images";
-import { canvasGame } from "../canvas";
+import { canvasGame } from "../canvas/index";
 import { isCollision } from "../engine/collision";
-import { scoreBox } from "../score";
+import { scoreBox } from "../score/index";
 import { bell } from "../data/audio";
-import { ILetter } from "../../models";
+import { ILetter } from "../../models/index";
 
 export class Letter {
   x: number;
@@ -32,10 +32,12 @@ export class Letter {
   }
 }
 
+function createLetter(xPosition: number = 0) {
+  return new Letter(Math.floor(Math.random() * WIDTH), xPosition, 50, 50);
+}
+
 export const fillLetters = () =>
-  [...Array(10)].map(
-    (_, i) => new Letter(Math.floor(Math.random() * WIDTH), i * -200, 50, 50)
-  );
+  [...Array(10)].map((_, i) => createLetter(i * -200));
 
 export let letters: ILetter[] = fillLetters();
 
@@ -51,7 +53,7 @@ export function drawLetters(score: number, santa) {
       if (score === 10 || score === 15) {
         scoreBox.scoreZoom();
       }
-      letters.push(new Letter(Math.floor(Math.random() * WIDTH), 0, 50, 50));
+      letters.push(createLetter());
       bell.play();
       setTimeout(() => {
         bell.pause();

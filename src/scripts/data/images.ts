@@ -1,4 +1,4 @@
-import { Picture } from "../../models";
+import { Picture } from "../../models/index";
 
 const santaImg: Picture = new Image();
 santaImg.src = require("../../assets/sprites/santasprite.jpg");

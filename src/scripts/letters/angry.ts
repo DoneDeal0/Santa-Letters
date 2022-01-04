@@ -1,11 +1,11 @@
-import { Letter } from ".";
+import { Letter } from "./index";
 import { score, updateScore } from "../global-state";
-import { HEIGHT, WIDTH } from "../data";
+import { HEIGHT, WIDTH } from "../data/index";
 import { angryLetterImg } from "../data/images";
-import { canvasGame } from "../canvas";
-import { ILetter } from "../../models";
+import { canvasGame } from "../canvas/index";
+import { ILetter } from "../../models/index";
 import { isCollision } from "../engine/collision";
-import { scoreBox } from "../score";
+import { scoreBox } from "../score/index";
 import { pain } from "../data/audio";
 
 class AngryLetter extends Letter {

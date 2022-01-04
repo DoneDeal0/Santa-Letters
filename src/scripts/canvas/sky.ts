@@ -1,6 +1,6 @@
-import { canvasSky } from ".";
-import { WIDTH, HEIGHT, MAX_FLAKES, FLOOR_HEIGHT } from "../data";
-import { Flake } from "../../models";
+import { canvasSky } from "./index";
+import { WIDTH, HEIGHT, MAX_FLAKES, FLOOR_HEIGHT, COLORS } from "../data/index";
+import { Flake } from "../../models/index";
 
 const flakes: Flake[] = [...Array(MAX_FLAKES)].map((_) => ({
   x: Math.random() * WIDTH,
@@ -29,11 +29,11 @@ function moveFlakes() {
 
 function drawFlakes() {
   canvasSky.clearRect(0, 0, WIDTH, HEIGHT);
-  canvasSky.fillStyle = "white";
+  canvasSky.fillStyle = COLORS.WHITE;
   canvasSky.beginPath();
   flakes.forEach((flake) => {
     canvasSky.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2, true);
-    canvasSky.moveTo(flake.x, flake.y); // place the flakes to it x,y coordinates.
+    canvasSky.moveTo(flake.x, flake.y);
   });
   canvasSky.fill();
   moveFlakes();

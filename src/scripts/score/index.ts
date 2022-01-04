@@ -1,7 +1,7 @@
-import { COUNTER_RADIUSES, COLORS, WIDTH } from "../data";
+import { COUNTER_RADIUSES, COLORS, WIDTH } from "../data/index";
 import { updateScoreRadius, radius } from "../global-state";
 import { laughLow, laugh, goodBoy, merry } from "../data/audio";
-import { canvasGame } from "../canvas";
+import { canvasGame } from "../canvas/index";
 
 let zoomInterval: NodeJS.Timeout = null;
 

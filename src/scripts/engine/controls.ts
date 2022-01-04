@@ -1,8 +1,8 @@
 import { score, updateScore } from "../global-state";
-import { santa } from "../santa";
+import { santa } from "../santa/index";
 import { santaReverse, santaImg } from "../data/images";
 import { fillAngryLetters } from "../letters/angry";
-import { fillLetters } from "../letters";
+import { fillLetters } from "../letters/index";
 
 export function initControls() {
   document.onkeydown = (event) => {
