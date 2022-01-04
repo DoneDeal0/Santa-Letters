@@ -38,7 +38,7 @@ export let scoreBox = {
       canvasGame.arc(WIDTH - 115, 120, radius, 0, 2 * Math.PI);
       canvasGame.lineWidth = 6;
       canvasGame.stroke();
-      canvasGame.font = "bold 70px monospace";
+      canvasGame.font = "bold 70px sans-serif";
       canvasGame.fillStyle = COLORS.WHITE;
       canvasGame.textAlign = "center";
       canvasGame.textBaseline = "middle";

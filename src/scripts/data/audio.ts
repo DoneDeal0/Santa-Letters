@@ -31,5 +31,10 @@ const bell: AudioFile = new Audio(bellSound);
 const pain: AudioFile = new Audio(painSound);
 const theme: AudioFile = new Audio(themeSound);
 theme.volume = 0.3;
+pain.volume = 0.4;
+laugh.volume = 0.3;
+goodBoy.volume = 0.5;
+merry.volume = 0.6;
+laughLow.volume = 0.3;
 
 export { theme, laugh, laughLow, goodBoy, merry, bell, pain };

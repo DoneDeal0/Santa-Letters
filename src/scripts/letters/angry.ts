@@ -29,13 +29,17 @@ class AngryLetter extends Letter {
   }
 }
 
-export const fillAngryLetters = () =>
+const fillAngryLetters = () =>
   [...Array(3)].map(
     (_, i) =>
       new AngryLetter(Math.floor(Math.random() * WIDTH), i * -600, 50, 50)
   );
 
-export const angryLetters: ILetter[] = fillAngryLetters();
+export let angryLetters: ILetter[] = fillAngryLetters();
+
+export const refillAngryLetters = () => {
+  angryLetters = fillAngryLetters();
+};
 
 export function drawAngryLetters(score: number, santa) {
   angryLetters.forEach((letter) => {

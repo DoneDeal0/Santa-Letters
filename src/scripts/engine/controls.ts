@@ -1,8 +1,8 @@
 import { score, updateScore } from "../global-state";
 import { santa } from "../santa/index";
 import { santaReverse, santaImg } from "../data/images";
-import { fillAngryLetters } from "../letters/angry";
-import { fillLetters } from "../letters/index";
+import { refillAngryLetters } from "../letters/angry";
+import { refillLetters } from "../letters/index";
 
 export function initControls() {
   document.onkeydown = (event) => {
@@ -34,6 +34,6 @@ export function initControls() {
 function restart() {
   updateScore(8);
   santa.restart();
-  fillAngryLetters();
-  fillLetters();
+  refillAngryLetters();
+  refillLetters();
 }

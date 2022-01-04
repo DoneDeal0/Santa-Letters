@@ -36,10 +36,13 @@ function createLetter(xPosition: number = 0) {
   return new Letter(Math.floor(Math.random() * WIDTH), xPosition, 50, 50);
 }
 
-export const fillLetters = () =>
-  [...Array(10)].map((_, i) => createLetter(i * -200));
+const fillLetters = () => [...Array(10)].map((_, i) => createLetter(i * -200));
 
 export let letters: ILetter[] = fillLetters();
+
+export const refillLetters = () => {
+  letters = fillLetters();
+};
 
 export function drawLetters(score: number, santa) {
   letters.forEach((letter) => {

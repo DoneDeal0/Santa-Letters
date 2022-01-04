@@ -3,10 +3,11 @@ import { playGame } from "./canvas/game";
 import { animateSky } from "./canvas/sky";
 import { theme } from "./data/audio";
 
-const start = document.querySelector<HTMLElement>("#start");
-
+const startScreen = document.querySelector<HTMLElement>("#start-screen");
+const start = document.querySelector<HTMLElement>("#start-button");
+animateSky();
 start.onclick = () => {
-  start.style.display = "none";
+  startScreen.remove();
   theme
     .play()
     .then(() => {
