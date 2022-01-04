@@ -1,6 +1,7 @@
-import { COUNTER_RADIUSES, COLORS } from "../data";
-import { updateScoreRadius } from "../global-state";
+import { COUNTER_RADIUSES, COLORS, WIDTH } from "../data";
+import { updateScoreRadius, radius } from "../global-state";
 import { laughLow, laugh, goodBoy, merry } from "../data/audio";
+import { canvasGame } from "../canvas";
 
 let zoomInterval: NodeJS.Timeout = null;
 
@@ -29,6 +30,23 @@ export let scoreBox = {
         scoreBox.visible = true;
       }
     }, 150);
+  },
+
+  update(score: number) {
+    if (this.visible) {
+      canvasGame.beginPath();
+      canvasGame.arc(WIDTH - 115, 120, radius, 0, 2 * Math.PI);
+      canvasGame.lineWidth = 6;
+      canvasGame.stroke();
+      canvasGame.font = "bold 70px monospace";
+      canvasGame.fillStyle = COLORS.WHITE;
+      canvasGame.textAlign = "center";
+      canvasGame.textBaseline = "middle";
+      canvasGame.fillText(score.toString(), WIDTH - 115, 120);
+      canvasGame.strokeStyle = getScoreColor(score);
+      playAudioBasedOnScore(score);
+      canvasGame.closePath();
+    }
   },
 };
 
