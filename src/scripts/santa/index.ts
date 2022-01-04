@@ -1,8 +1,9 @@
-import { santaImg } from "../data/images";
 import { canvasGame } from "../canvas/index";
+import { santaImg } from "../data/images";
 import { HEIGHT } from "../data/index";
+import { ISanta } from "../../models/index";
 
-export const santa = {
+export const santa: ISanta = {
   x: 300,
   y: HEIGHT - 223,
   width: 150,
@@ -28,14 +29,39 @@ export const santa = {
       );
     }
   },
-  stopWalking() {
+
+  flash() {
+    let count = 0;
+    this.flashInterval = setInterval(() => {
+      this.visible = !this.visible;
+      count++;
+      if (count === 6) {
+        clearInterval(this.flashInterval);
+        this.visible = true;
+      }
+    }, 150);
+  },
+
+  stopFlash() {
+    clearInterval(this.flashInterval);
+    this.visible = true;
+  },
+
+  stopWalk() {
     clearInterval(this.walkInterval);
     this.walkInterval = null;
     this.spriteX = 0;
     this.spriteY = 450;
   },
 
-  startWalking() {
+  reset() {
+    this.x = 300;
+    this.y = HEIGHT - 223;
+    this.flashInterval = null;
+    this.stopWalk();
+  },
+
+  walk() {
     if (this.walkInterval) {
       return null;
     }
@@ -49,23 +75,5 @@ export const santa = {
         }
       }
     }, 75);
-  },
-
-  santaClick() {
-    let count = 0;
-    this.flashInterval = setInterval(() => {
-      this.visible = !this.visible;
-      count++;
-      if (count === 6) {
-        clearInterval(this.flashInterval);
-        this.visible = true;
-      }
-    }, 150);
-  },
-
-  restart() {
-    this.x = 300;
-    this.y = HEIGHT - 223;
-    this.stopWalking();
   },
 };

@@ -1,8 +1,8 @@
-import { score, updateScore } from "../global-state";
-import { santa } from "../santa/index";
 import { santaReverse, santaImg } from "../data/images";
+import { score, updateScore } from "../global-state";
 import { refillAngryLetters } from "../letters/angry";
 import { refillLetters } from "../letters/index";
+import { santa } from "../santa/index";
 
 export function initControls() {
   document.onkeydown = (event) => {
@@ -14,7 +14,7 @@ export function initControls() {
     if (score >= 20 || score <= 0) {
       return null;
     }
-    santa.startWalking();
+    santa.walk();
     switch (event.keyCode) {
       case 37: // ARROW LEFT
         santa.image = santaReverse;
@@ -27,13 +27,13 @@ export function initControls() {
     }
   };
   document.onkeyup = () => {
-    santa.stopWalking();
+    santa.stopWalk();
   };
 }
 
 function restart() {
   updateScore(8);
-  santa.restart();
+  santa.reset();
   refillAngryLetters();
   refillLetters();
 }

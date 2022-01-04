@@ -1,4 +1,4 @@
-export type Flake = {
+export type IFlake = {
   x: number;
   y: number;
   radius: number;
@@ -11,6 +11,42 @@ export type ILetter = {
   width: number;
   height: number;
   caught: boolean;
+  draw: () => void;
+};
+
+export type ISanta = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  spriteX: number;
+  spriteY: number;
+  walkInterval: NodeJS.Timer;
+  flashInterval: NodeJS.Timer;
+  visible: boolean;
+  image: HTMLImageElement;
+  draw: () => void;
+  stopWalk: () => void;
+  walk: () => void;
+  flash: () => void;
+  reset: () => void;
+  stopFlash: () => void;
+};
+
+export type IScore = {
+  flashInterval: NodeJS.Timer;
+  visible: boolean;
+  zoom: () => void;
+  flash: () => void;
+  stopFlash: () => void;
+  update: (score:number) => void;
+};
+
+export type ISnow = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
   draw: () => void;
 };
 

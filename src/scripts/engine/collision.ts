@@ -1,4 +1,6 @@
-export function isCollision(santa, letter): boolean {
+import { ILetter, ISanta } from "../../models/index";
+
+export function isCollision(santa: ISanta, letter: ILetter): boolean {
   return (
     santa.y + santa.height >= letter.y &&
     santa.y <= letter.y + letter.height &&

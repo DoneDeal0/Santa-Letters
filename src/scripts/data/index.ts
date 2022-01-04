@@ -1,7 +1,12 @@
-export const WIDTH: number = window.innerWidth;
-export const HEIGHT: number = window.innerHeight;
-export const MAX_FLAKES: number = 100;
-export const FLOOR_HEIGHT: number = 90;
+export const COLORS = {
+  GREEN: "#42f462",
+  SOFT_GREEN: "#b5f441",
+  WHITE: "#fff",
+  RED: "#e00d2d",
+  SKY_BLUE: "#102a54",
+  SNOW_WHITE: "#F7F4FA",
+};
+
 export const COUNTER_RADIUSES = [
   61,
   62,
@@ -26,11 +31,9 @@ export const COUNTER_RADIUSES = [
   60,
 ];
 
-export const COLORS = {
-  GREEN: "#42f462",
-  SOFT_GREEN: "#b5f441",
-  WHITE: "#fff",
-  RED: "#e00d2d",
-  SKY_BLUE: "#102a54",
-  SNOW_WHITE: "#F7F4FA",
-};
+export const FLOOR_HEIGHT: number = 90;
+export const HEIGHT: number = window.innerHeight;
+export const MAX_FLAKES: number = 100;
+export const WIDTH: number = window.innerWidth;
+
+

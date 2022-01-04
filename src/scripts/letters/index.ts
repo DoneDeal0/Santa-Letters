@@ -1,11 +1,12 @@
-import { score, updateScore } from "../global-state";
-import { HEIGHT, WIDTH } from "../data/index";
-import { letterImg, letterCatch } from "../data/images";
 import { canvasGame } from "../canvas/index";
-import { isCollision } from "../engine/collision";
-import { scoreBox } from "../score/index";
+import { HEIGHT, WIDTH } from "../data/index";
 import { bell } from "../data/audio";
-import { ILetter } from "../../models/index";
+import { letterImg, letterCatch } from "../data/images";
+import { playAudio } from "../engine/audio";
+import { isCollision } from "../engine/collision";
+import { score, updateScore } from "../global-state";
+import { ILetter, ISanta } from "../../models/index";
+import { scoreBox } from "../score/index";
 
 export class Letter {
   x: number;
@@ -44,7 +45,7 @@ export const refillLetters = () => {
   letters = fillLetters();
 };
 
-export function drawLetters(score: number, santa) {
+export function drawLetters(score: number, santa: ISanta) {
   letters.forEach((letter) => {
     letter.draw();
     if (!letter.caught && isCollision(santa, letter)) {
@@ -54,14 +55,10 @@ export function drawLetters(score: number, santa) {
       letterHit.y = letter.y;
       letterHit.draw();
       if (score === 10 || score === 15) {
-        scoreBox.scoreZoom();
+        scoreBox.zoom();
       }
       letters.push(createLetter());
-      bell.play();
-      setTimeout(() => {
-        bell.pause();
-        bell.currentTime = 0;
-      }, 1000);
+      playAudio(bell);
     }
   });
   letters = letters.filter((letter) => !letter.caught);
@@ -74,7 +71,6 @@ export const letterHit = {
   height: 150,
   spriteX: 0,
   spriteY: 103,
-  image: letterCatch,
   draw() {
     canvasGame.drawImage(
       letterCatch,

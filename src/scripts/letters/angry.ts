@@ -1,12 +1,13 @@
 import { Letter } from "./index";
-import { score, updateScore } from "../global-state";
+import { canvasGame } from "../canvas/index";
+import { pain } from "../data/audio";
 import { HEIGHT, WIDTH } from "../data/index";
 import { angryLetterImg } from "../data/images";
-import { canvasGame } from "../canvas/index";
-import { ILetter } from "../../models/index";
+import { playAudio } from "../engine/audio";
 import { isCollision } from "../engine/collision";
+import { score, updateScore } from "../global-state";
+import { ILetter, ISanta } from "../../models/index";
 import { scoreBox } from "../score/index";
-import { pain } from "../data/audio";
 
 class AngryLetter extends Letter {
   constructor(x: number, y: number, width: number, height: number) {
@@ -41,19 +42,15 @@ export const refillAngryLetters = () => {
   angryLetters = fillAngryLetters();
 };
 
-export function drawAngryLetters(score: number, santa) {
+export function drawAngryLetters(score: number, santa: ISanta) {
   angryLetters.forEach((letter) => {
     letter.draw();
     if (!letter.caught && isCollision(santa, letter)) {
       updateScore(score - 3);
       letter.caught = true;
-      santa.santaClick();
-      scoreBox.scoreClick();
-      pain.play();
-      setTimeout(() => {
-        pain.pause();
-        pain.currentTime = 0;
-      }, 2000);
+      santa.flash();
+      scoreBox.flash();
+      playAudio(pain);
     }
   });
 }

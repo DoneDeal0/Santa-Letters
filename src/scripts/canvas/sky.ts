@@ -1,8 +1,8 @@
 import { canvasSky } from "./index";
 import { WIDTH, HEIGHT, MAX_FLAKES, FLOOR_HEIGHT, COLORS } from "../data/index";
-import { Flake } from "../../models/index";
+import { IFlake } from "../../models/index";
 
-const flakes: Flake[] = [...Array(MAX_FLAKES)].map((_) => ({
+const flakes: IFlake[] = [...Array(MAX_FLAKES)].map((_) => ({
   x: Math.random() * WIDTH,
   y: Math.random() * HEIGHT,
   radius: Math.random() * 5 + 2, // a flake can't be bigger than 7px and smaller than 2px.

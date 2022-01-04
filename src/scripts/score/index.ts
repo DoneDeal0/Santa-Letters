@@ -1,15 +1,17 @@
-import { COUNTER_RADIUSES, COLORS, WIDTH } from "../data/index";
-import { updateScoreRadius, radius } from "../global-state";
-import { laughLow, laugh, goodBoy, merry } from "../data/audio";
 import { canvasGame } from "../canvas/index";
+import { laughLow, laugh, goodBoy, merry } from "../data/audio";
+import { COUNTER_RADIUSES, COLORS, WIDTH } from "../data/index";
+import { playAudio } from "../engine/audio";
+import { updateScoreRadius, radius } from "../global-state";
+import { IScore } from "../../models/index";
 
 let zoomInterval: NodeJS.Timeout = null;
 
-export let scoreBox = {
+export let scoreBox: IScore = {
   flashInterval: null,
   visible: true,
 
-  scoreZoom() {
+  zoom() {
     let count = 0;
     zoomInterval = setInterval(() => {
       updateScoreRadius(COUNTER_RADIUSES[count]);
@@ -20,7 +22,7 @@ export let scoreBox = {
     }, 50);
   },
 
-  scoreClick() {
+  flash() {
     let count = 0;
     this.flashInterval = setInterval(() => {
       scoreBox.visible = !scoreBox.visible;
@@ -30,6 +32,11 @@ export let scoreBox = {
         scoreBox.visible = true;
       }
     }, 150);
+  },
+
+  stopFlash() {
+    this.flashInterval = null;
+    this.visible = true;
   },
 
   update(score: number) {
@@ -59,31 +66,15 @@ export function getScoreColor(score: number) {
 
 export function playAudioBasedOnScore(score: number) {
   if (score <= 0) {
-    laughLow.play();
-    setTimeout(() => {
-      laughLow.pause();
-      laughLow.currentTime = 0;
-    }, 2000);
+    playAudio(laughLow);
   }
   if (score === 10) {
-    laugh.play();
-    setTimeout(() => {
-      laugh.pause();
-      laugh.currentTime = 0;
-    }, 2000);
+    playAudio(laugh);
   }
   if (score === 15) {
-    goodBoy.play();
-    setTimeout(() => {
-      goodBoy.pause();
-      goodBoy.currentTime = 0;
-    }, 2500);
+    playAudio(goodBoy, 2500);
   }
   if (score === 20) {
-    merry.play();
-    setTimeout(() => {
-      merry.pause();
-      merry.currentTime = 0;
-    }, 2000);
+    playAudio(merry);
   }
 }
