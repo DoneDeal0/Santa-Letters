@@ -15,4 +15,4 @@ The goal is to score **20 points**. Each letter caught gives you **1 point**, wh
 
 DoneDeal0
 
-Snow rendering inspired by the The Net Ninja.
+Snow rendering inspired by the Net Ninja.

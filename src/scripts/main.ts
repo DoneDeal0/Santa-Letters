@@ -5,7 +5,7 @@ import { initControls } from "./engine/controls";
 
 const startScreen = document.querySelector<HTMLElement>("#start-screen");
 const start = document.querySelector<HTMLElement>("#start-button");
-animateSky();
+
 start.onclick = () => {
   startScreen.remove();
   theme
