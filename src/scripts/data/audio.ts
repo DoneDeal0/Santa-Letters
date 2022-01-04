@@ -21,5 +21,6 @@ laughLow.volume = 0.3;
 merry.volume = 0.6;
 pain.volume = 0.4;
 theme.volume = 0.3;
+theme.loop = true;
 
 export { bell, goodBoy, laugh, laughLow, merry, pain, theme };

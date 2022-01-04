@@ -459,146 +459,98 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"2RQX4":[function(require,module,exports) {
-var _controls = require("./engine/controls");
 var _game = require("./canvas/game");
 var _sky = require("./canvas/sky");
-_controls.initControls();
+var _audio = require("./data/audio");
+var _controls = require("./engine/controls");
+const startScreen = document.querySelector("#start-screen");
+const start = document.querySelector("#start-button");
 _sky.animateSky();
-_game.playGame();
+start.onclick = ()=>{
+    startScreen.remove();
+    _audio.theme.play().then(()=>{
+        _sky.animateSky();
+        _controls.initControls();
+        _game.playGame();
+    }).catch((_)=>alert("An error occured")
+    );
+};
 
-},{"./canvas/game":"120yC","./canvas/sky":"lgQH4","./engine/controls":"puiT9"}],"120yC":[function(require,module,exports) {
+},{"./canvas/game":"120yC","./canvas/sky":"lgQH4","./engine/controls":"puiT9","./data/audio":"9IypU"}],"120yC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "playGame", ()=>playGame
 );
-var _ = require(".");
+var _index = require("./index");
 var _images = require("../data/images");
-var _data = require("../data");
+var _index1 = require("../data/index");
 var _globalState = require("../global-state");
-var _score = require("../score");
-var _letters = require("../letters");
+var _index2 = require("../score/index");
+var _index3 = require("../letters/index");
+var _snow = require("./snow");
+var _index4 = require("../santa/index");
 var _angry = require("../letters/angry");
-var _santa = require("../santa");
-const snow = {
-    x: 0,
-    y: _data.HEIGHT - 235,
-    width: _data.WIDTH,
-    height: 300,
-    image: _images.snowImg,
-    draw () {
-        _.canvasGame.drawImage(this.image, this.x, this.y, this.width, this.height);
-    }
-};
-function updateGame() {
-    if (this.visible) {
-        _.canvasGame.beginPath();
-        _.canvasGame.arc(_data.WIDTH - 115, 120, _globalState.radius, 0, 2 * Math.PI);
-        _.canvasGame.lineWidth = 6;
-        _.canvasGame.stroke();
-        _.canvasGame.font = "bold 70px monospace";
-        _.canvasGame.fillStyle = _data.COLORS.WHITE;
-        _.canvasGame.textAlign = "center";
-        _.canvasGame.textBaseline = "middle";
-        _.canvasGame.fillText(_globalState.score.toString(), _data.WIDTH - 115, 120);
-        _.canvasGame.strokeStyle = _score.getScoreColor(_globalState.score);
-        _score.playAudioBasedOnScore(_globalState.score);
-        _.canvasGame.closePath();
-    }
-}
 function drawGame() {
-    _.canvasGame.fillStyle = _data.COLORS.SKY_BLUE;
-    _.canvasGame.fillRect(0, 0, _data.WIDTH, _data.HEIGHT);
-    _.canvasGame.fillStyle = _data.COLORS.SNOW_WHITE;
-    _.canvasGame.fillRect(0, _data.HEIGHT - 80, _data.WIDTH, 210);
-    _santa.santa.draw();
-    updateGame();
-    snow.draw();
+    _index.canvasGame.fillStyle = _index1.COLORS.SNOW_WHITE;
+    _index.canvasGame.fillRect(0, _index1.HEIGHT - 80, _index1.WIDTH, 210);
+    _index4.santa.draw();
+    _index2.scoreBox.update(_globalState.score);
+    _snow.snow.draw();
     if (_globalState.score <= 0 || _globalState.score >= 20) {
-        const newWidth = _data.HEIGHT * 0.64;
-        _.canvasGame.drawImage(_globalState.score < 20 ? _images.gameoverImg : _images.winImg, _data.WIDTH / 2 - newWidth / 2, 100, newWidth, _data.HEIGHT * 0.7);
-        _.canvasGame.font = "bold 25px monospace";
-        _.canvasGame.fillText("PRESS ENTER TO PLAY AGAIN", _data.WIDTH / 2, 70);
+        const newWidth = _index1.HEIGHT * 0.64;
+        _index.canvasGame.drawImage(_globalState.score < 20 ? _images.gameoverImg : _images.winImg, _index1.WIDTH / 2 - newWidth / 2, 100, newWidth, _index1.HEIGHT * 0.7);
+        _index.canvasGame.font = "bold 25px sans-serif";
+        _index.canvasGame.fillText("PRESS ENTER TO PLAY AGAIN", _index1.WIDTH / 2, 70);
+        _index4.santa.stopFlash();
         return;
     }
-    _letters.drawLetters(_globalState.score, _santa.santa);
-    _angry.drawAngryLetters(_globalState.score);
+    _index3.drawLetters(_globalState.score, _index4.santa);
+    _angry.drawAngryLetters(_globalState.score, _index4.santa);
 }
 function playGame() {
-    _.canvasGame.clearRect(0, 0, _data.WIDTH, _data.HEIGHT);
+    _index.canvasGame.clearRect(0, 0, _index1.WIDTH, _index1.HEIGHT);
     drawGame();
     requestAnimationFrame(()=>playGame()
     );
 }
 
-},{".":"6Bx9b","../data/images":"1tFbn","../data":"f843F","../global-state":"6Ocq5","../score":"lKOZb","../letters":"jRKZy","../letters/angry":"guRhh","../santa":"l1ME9","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"6Bx9b":[function(require,module,exports) {
+},{"../data/images":"1tFbn","../global-state":"6Ocq5","../letters/angry":"guRhh","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV","./index":"6Bx9b","../data/index":"f843F","../score/index":"lKOZb","../letters/index":"jRKZy","./snow":"3x1U5","../santa/index":"l1ME9"}],"1tFbn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "canvasSky", ()=>canvasSky
+parcelHelpers.export(exports, "angryLetterImg", ()=>angryLetterImg
 );
-parcelHelpers.export(exports, "canvasGame", ()=>canvasGame
+parcelHelpers.export(exports, "gameoverImg", ()=>gameoverImg
 );
-var _data = require("../data");
-const skyNode = document.querySelector("#sky");
-skyNode.width = _data.WIDTH;
-skyNode.height = _data.HEIGHT;
-const canvasSky = skyNode.getContext("2d");
-const gameNode = document.querySelector("#game");
-gameNode.width = _data.WIDTH;
-gameNode.height = _data.HEIGHT;
-const canvasGame = gameNode.getContext("2d");
+parcelHelpers.export(exports, "letterImg", ()=>letterImg
+);
+parcelHelpers.export(exports, "letterCatch", ()=>letterCatch
+);
+parcelHelpers.export(exports, "santaImg", ()=>santaImg
+);
+parcelHelpers.export(exports, "santaReverse", ()=>santaReverse
+);
+parcelHelpers.export(exports, "snowImg", ()=>snowImg
+);
+parcelHelpers.export(exports, "winImg", ()=>winImg
+);
+const angryLetterImg = new Image();
+angryLetterImg.src = require("../../assets/images/angryletter.png");
+const gameoverImg = new Image();
+gameoverImg.src = require("../../assets/images/gameover.jpg");
+const letterCatch = new Image();
+letterCatch.src = require("../../assets/sprites/spritecatch.png");
+const letterImg = new Image();
+letterImg.src = require("../../assets/images/letter.png");
+const santaImg = new Image();
+santaImg.src = require("../../assets/sprites/santasprite.jpg");
+const santaReverse = new Image();
+santaReverse.src = require("../../assets/sprites/santaspriteReverse.png");
+const snowImg = new Image();
+snowImg.src = require("../../assets/images/snow.png");
+const winImg = new Image();
+winImg.src = require("../../assets/images/win.jpg");
 
-},{"../data":"f843F","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"f843F":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "WIDTH", ()=>WIDTH
-);
-parcelHelpers.export(exports, "HEIGHT", ()=>HEIGHT
-);
-parcelHelpers.export(exports, "MAX_FLAKES", ()=>MAX_FLAKES
-);
-parcelHelpers.export(exports, "FLOOR_HEIGHT", ()=>FLOOR_HEIGHT
-);
-parcelHelpers.export(exports, "COUNTER_RADIUSES", ()=>COUNTER_RADIUSES
-);
-parcelHelpers.export(exports, "COLORS", ()=>COLORS
-);
-const WIDTH = window.innerWidth;
-const HEIGHT = window.innerHeight;
-const MAX_FLAKES = 100;
-const FLOOR_HEIGHT = 90;
-const COUNTER_RADIUSES = [
-    61,
-    62,
-    63,
-    64,
-    65,
-    66,
-    67,
-    68,
-    69,
-    70,
-    70,
-    69,
-    68,
-    67,
-    66,
-    65,
-    64,
-    63,
-    62,
-    61,
-    60, 
-];
-const COLORS = {
-    GREEN: "#42f462",
-    SOFT_GREEN: "#b5f441",
-    WHITE: "#fff",
-    RED: "#e00d2d",
-    SKY_BLUE: "#102a54",
-    SNOW_WHITE: "#F7F4FA"
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"ciiiV":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV","../../assets/sprites/santasprite.jpg":"lqn2S","../../assets/sprites/santaspriteReverse.png":"4kfhA","../../assets/images/snow.png":"fDRca","../../assets/images/letter.png":"7DfIj","../../assets/images/angryletter.png":"3DvBI","../../assets/sprites/spritecatch.png":"cFf0N","../../assets/images/gameover.jpg":"ch9wk","../../assets/images/win.jpg":"eI5C5"}],"ciiiV":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -628,43 +580,7 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"1tFbn":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "santaImg", ()=>santaImg
-);
-parcelHelpers.export(exports, "santaReverse", ()=>santaReverse
-);
-parcelHelpers.export(exports, "angryLetterImg", ()=>angryLetterImg
-);
-parcelHelpers.export(exports, "snowImg", ()=>snowImg
-);
-parcelHelpers.export(exports, "letterImg", ()=>letterImg
-);
-parcelHelpers.export(exports, "letterCatch", ()=>letterCatch
-);
-parcelHelpers.export(exports, "gameoverImg", ()=>gameoverImg
-);
-parcelHelpers.export(exports, "winImg", ()=>winImg
-);
-const santaImg = new Image();
-santaImg.src = require("../../assets/sprites/santasprite.jpg");
-const santaReverse = new Image();
-santaReverse.src = require("../../assets/sprites/santaspriteReverse.png");
-const snowImg = new Image();
-snowImg.src = require("../../assets/images/snow.png");
-const letterImg = new Image();
-letterImg.src = require("../../assets/images/letter.png");
-const angryLetterImg = new Image();
-angryLetterImg.src = require("../../assets/images/angryletter.png");
-const letterCatch = new Image();
-letterCatch.src = require("../../assets/sprites/spritecatch.png");
-const gameoverImg = new Image();
-gameoverImg.src = require("../../assets/images/gameover.jpg");
-const winImg = new Image();
-winImg.src = require("../../assets/images/win.jpg");
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV","../../assets/sprites/santasprite.jpg":"lqn2S","../../assets/sprites/santaspriteReverse.png":"4kfhA","../../assets/images/snow.png":"fDRca","../../assets/images/letter.png":"7DfIj","../../assets/images/angryletter.png":"3DvBI","../../assets/sprites/spritecatch.png":"cFf0N","../../assets/images/gameover.jpg":"ch9wk","../../assets/images/win.jpg":"eI5C5"}],"lqn2S":[function(require,module,exports) {
+},{}],"lqn2S":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('c7zNS') + "santasprite.8d442e3b.jpg" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"chiK4"}],"chiK4":[function(require,module,exports) {
@@ -741,121 +657,77 @@ const updateScore = (newScore)=>score = newScore
 const updateScoreRadius = (newRadius)=>radius = newRadius
 ;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"lKOZb":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"guRhh":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "scoreBox", ()=>scoreBox
+parcelHelpers.export(exports, "angryLetters", ()=>angryLetters
 );
-parcelHelpers.export(exports, "getScoreColor", ()=>getScoreColor
+parcelHelpers.export(exports, "refillAngryLetters", ()=>refillAngryLetters
 );
-parcelHelpers.export(exports, "playAudioBasedOnScore", ()=>playAudioBasedOnScore
+parcelHelpers.export(exports, "drawAngryLetters", ()=>drawAngryLetters
 );
-var _data = require("../data");
-var _globalState = require("../global-state");
+var _index = require("./index");
+var _index1 = require("../canvas/index");
 var _audio = require("../data/audio");
-let zoomInterval = null;
-let scoreBox = {
-    flashInterval: null,
-    visible: true,
-    scoreZoom () {
-        let count = 0;
-        zoomInterval = setInterval(()=>{
-            _globalState.updateScoreRadius(_data.COUNTER_RADIUSES[count]);
-            count++;
-            if (count === _data.COUNTER_RADIUSES.length) clearInterval(zoomInterval);
-        }, 50);
-    },
-    scoreClick () {
-        let count = 0;
-        this.flashInterval = setInterval(()=>{
-            scoreBox.visible = !scoreBox.visible;
-            count++;
-            if (count === 6) {
-                clearInterval(scoreBox.flashInterval);
-                scoreBox.visible = true;
-            }
-        }, 150);
+var _index2 = require("../data/index");
+var _images = require("../data/images");
+var _audio1 = require("../engine/audio");
+var _collision = require("../engine/collision");
+var _globalState = require("../global-state");
+var _index3 = require("../score/index");
+class AngryLetter extends _index.Letter {
+    constructor(x, y, width, height){
+        super(x, y, width, height);
     }
+    draw() {
+        if (_globalState.score > 0) this.y += 1;
+        if (this.y > _index2.HEIGHT && this.caught === false) this.y = -500;
+        _index1.canvasGame.drawImage(_images.angryLetterImg, this.x, this.y, this.width, this.height);
+    }
+}
+const fillAngryLetters = ()=>[
+        ...Array(3)
+    ].map((_, i)=>new AngryLetter(Math.floor(Math.random() * _index2.WIDTH), i * -600, 50, 50)
+    )
+;
+let angryLetters = fillAngryLetters();
+const refillAngryLetters = ()=>{
+    angryLetters = fillAngryLetters();
 };
-function getScoreColor(score) {
-    if (score > 15) return _data.COLORS.GREEN;
-    if (score >= 10) return _data.COLORS.SOFT_GREEN;
-    if (score > 5) return _data.COLORS.WHITE;
-    return _data.COLORS.RED;
-}
-function playAudioBasedOnScore(score) {
-    if (score <= 0) {
-        _audio.laughLow.play();
-        setTimeout(()=>{
-            _audio.laughLow.pause();
-            _audio.laughLow.currentTime = 0;
-        }, 2000);
-    }
-    if (score === 10) {
-        _audio.laugh.play();
-        setTimeout(()=>{
-            _audio.laugh.pause();
-            _audio.laugh.currentTime = 0;
-        }, 2000);
-    }
-    if (score === 15) {
-        _audio.goodBoy.play();
-        setTimeout(()=>{
-            _audio.goodBoy.pause();
-            _audio.goodBoy.currentTime = 0;
-        }, 2500);
-    }
-    if (score === 20) {
-        _audio.merry.play();
-        setTimeout(()=>{
-            _audio.merry.pause();
-            _audio.merry.currentTime = 0;
-        }, 2000);
-    }
+function drawAngryLetters(score, santa) {
+    angryLetters.forEach((letter)=>{
+        letter.draw();
+        if (!letter.caught && _collision.isCollision(santa, letter)) {
+            _globalState.updateScore(score - 3);
+            letter.caught = true;
+            santa.flash();
+            _index3.scoreBox.flash();
+            _audio1.playAudio(_audio.pain);
+        }
+    });
 }
 
-},{"../data":"f843F","../global-state":"6Ocq5","../data/audio":"9IypU","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"9IypU":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "laugh", ()=>laugh
-);
-parcelHelpers.export(exports, "laughLow", ()=>laughLow
-);
-parcelHelpers.export(exports, "goodBoy", ()=>goodBoy
-);
-parcelHelpers.export(exports, "merry", ()=>merry
-);
-parcelHelpers.export(exports, "bell", ()=>bell
-);
-parcelHelpers.export(exports, "pain", ()=>pain
-);
-const laugh = new Audio("../../assets/audio/santa-laugh.mp3");
-const laughLow = new Audio("../../assets/audio/santa-lowlaugh.mp3");
-const goodBoy = new Audio("../../assets/audio/santa-goodboy.mp3");
-const merry = new Audio("../../assets/audio/santa-merry.mp3");
-const bell = new Audio("../../assets/audio/santa-bell.mp3");
-const pain = new Audio("../../assets/audio/santa-pain.mp3");
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"jRKZy":[function(require,module,exports) {
+},{"../global-state":"6Ocq5","../data/images":"1tFbn","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV","./index":"jRKZy","../canvas/index":"6Bx9b","../data/audio":"9IypU","../data/index":"f843F","../engine/audio":"gei8j","../engine/collision":"7okYP","../score/index":"lKOZb"}],"jRKZy":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Letter", ()=>Letter
 );
-parcelHelpers.export(exports, "fillLetters", ()=>fillLetters
-);
 parcelHelpers.export(exports, "letters", ()=>letters
+);
+parcelHelpers.export(exports, "refillLetters", ()=>refillLetters
 );
 parcelHelpers.export(exports, "drawLetters", ()=>drawLetters
 );
 parcelHelpers.export(exports, "letterHit", ()=>letterHit
 );
-var _globalState = require("../global-state");
-var _data = require("../data");
-var _images = require("../data/images");
-var _canvas = require("../canvas");
-var _collision = require("../engine/collision");
-var _score = require("../score");
+var _index = require("../canvas/index");
+var _index1 = require("../data/index");
 var _audio = require("../data/audio");
+var _images = require("../data/images");
+var _audio1 = require("../engine/audio");
+var _collision = require("../engine/collision");
+var _globalState = require("../global-state");
+var _index2 = require("../score/index");
 class Letter {
     constructor(x, y, width, height){
         this.x = x;
@@ -866,19 +738,25 @@ class Letter {
     }
     draw() {
         if (_globalState.score > 0) this.y += 1;
-        if (this.y > _data.HEIGHT && this.caught === false) {
+        if (this.y > _index1.HEIGHT && this.caught === false) {
             this.y = -500;
             _globalState.updateScore(_globalState.score - 1);
         }
-        _canvas.canvasGame.drawImage(_images.letterImg, this.x, this.y, this.width, this.height);
+        _index.canvasGame.drawImage(_images.letterImg, this.x, this.y, this.width, this.height);
     }
+}
+function createLetter(xPosition = 0) {
+    return new Letter(Math.floor(Math.random() * _index1.WIDTH), xPosition, 50, 50);
 }
 const fillLetters = ()=>[
         ...Array(10)
-    ].map((_, i)=>new Letter(Math.floor(Math.random() * _data.WIDTH), i * 200, 50, 50)
+    ].map((_, i)=>createLetter(i * -200)
     )
 ;
 let letters = fillLetters();
+const refillLetters = ()=>{
+    letters = fillLetters();
+};
 function drawLetters(score, santa) {
     letters.forEach((letter)=>{
         letter.draw();
@@ -888,13 +766,9 @@ function drawLetters(score, santa) {
             letterHit.x = letter.x;
             letterHit.y = letter.y;
             letterHit.draw();
-            if (score === 10 || score === 15) _score.scoreBox.scoreZoom();
-            letters.push(new Letter(Math.floor(Math.random() * _data.WIDTH), 0, 50, 50));
-            _audio.bell.play();
-            setTimeout(()=>{
-                _audio.bell.pause();
-                _audio.bell.currentTime = 0;
-            }, 1000);
+            if (score === 10 || score === 15) _index2.scoreBox.zoom();
+            letters.push(createLetter());
+            _audio1.playAudio(_audio.bell);
         }
     });
     letters = letters.filter((letter)=>!letter.caught
@@ -907,9 +781,8 @@ const letterHit = {
     height: 150,
     spriteX: 0,
     spriteY: 103,
-    image: _images.letterCatch,
     draw () {
-        _canvas.canvasGame.drawImage(_images.letterCatch, this.spriteX, this.spriteY, this.width, this.height, this.x, this.y, this.width, this.height);
+        _index.canvasGame.drawImage(_images.letterCatch, this.spriteX, this.spriteY, this.width, this.height, this.x, this.y, this.width, this.height);
         setInterval(()=>{
             letterHit.spriteX += 128;
             if (letterHit.spriteX === 640) letterHit.spriteX = 0;
@@ -917,7 +790,7 @@ const letterHit = {
     }
 };
 
-},{"../global-state":"6Ocq5","../data":"f843F","../data/images":"1tFbn","../canvas":"6Bx9b","../engine/collision":"7okYP","../score":"lKOZb","../data/audio":"9IypU","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"7okYP":[function(require,module,exports) {
+},{"../global-state":"6Ocq5","../data/images":"1tFbn","../engine/collision":"7okYP","../data/audio":"9IypU","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV","../canvas/index":"6Bx9b","../data/index":"f843F","../engine/audio":"gei8j","../score/index":"lKOZb"}],"7okYP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "isCollision", ()=>isCollision
@@ -926,51 +799,247 @@ function isCollision(santa, letter) {
     return santa.y + santa.height >= letter.y && santa.y <= letter.y + letter.height && santa.x + santa.width >= letter.x && santa.x <= letter.x + letter.width;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"guRhh":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"9IypU":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "fillAngryLetters", ()=>fillAngryLetters
+parcelHelpers.export(exports, "bell", ()=>bell
 );
-parcelHelpers.export(exports, "angryLetters", ()=>angryLetters
+parcelHelpers.export(exports, "goodBoy", ()=>goodBoy
 );
-parcelHelpers.export(exports, "drawAngryLetters", ()=>drawAngryLetters
+parcelHelpers.export(exports, "laugh", ()=>laugh
 );
-var _ = require(".");
-var _globalState = require("../global-state");
-var _data = require("../data");
-var _images = require("../data/images");
-var _canvas = require("../canvas");
-class AngryLetter extends _.Letter {
-    constructor(x, y, width, height){
-        super(x, y, width, height);
-    }
-    draw() {
-        if (_globalState.score > 0) this.y += 1;
-        if (this.y > _data.HEIGHT && this.caught === false) this.y = -500;
-        _canvas.canvasGame.drawImage(_images.angryLetterImg, this.x, this.y, this.width, this.height);
-    }
-}
-const fillAngryLetters = ()=>[
-        ...Array(3)
-    ].map((_, i)=>new AngryLetter(Math.floor(Math.random() * _data.WIDTH), i * 600, 50, 50)
-    )
-;
-const angryLetters = fillAngryLetters();
-function drawAngryLetters(score) {
-    return null;
+parcelHelpers.export(exports, "laughLow", ()=>laughLow
+);
+parcelHelpers.export(exports, "merry", ()=>merry
+);
+parcelHelpers.export(exports, "pain", ()=>pain
+);
+parcelHelpers.export(exports, "theme", ()=>theme
+);
+const bellSound = new URL(require("b8609188c9b78b2e"));
+const goodBoySound = new URL(require("f0382ae608b3c8a2"));
+const laughSound = new URL(require("60964366c47d6838"));
+const laughLowSound = new URL(require("b106459aaba8e974"));
+const merrySound = new URL(require("48673e6551545ada"));
+const painSound = new URL(require("8d5f1b9d1bf58222"));
+const themeSound = new URL(require("c9efe77b9b0bbec3"));
+const bell = new Audio(bellSound);
+const goodBoy = new Audio(goodBoySound);
+const laugh = new Audio(laughSound);
+const laughLow = new Audio(laughLowSound);
+const merry = new Audio(merrySound);
+const pain = new Audio(painSound);
+const theme = new Audio(themeSound);
+goodBoy.volume = 0.5;
+laugh.volume = 0.3;
+laughLow.volume = 0.3;
+merry.volume = 0.6;
+pain.volume = 0.4;
+theme.volume = 0.3;
+theme.loop = true;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV","b8609188c9b78b2e":"6lA6r","f0382ae608b3c8a2":"7CYXs","60964366c47d6838":"3c92U","b106459aaba8e974":"kqn90","48673e6551545ada":"ibqhH","8d5f1b9d1bf58222":"22Nic","c9efe77b9b0bbec3":"9O4oF"}],"6lA6r":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('c7zNS') + "santa-bell.9d55ac39.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"chiK4"}],"7CYXs":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('c7zNS') + "santa-goodboy.8b6c8445.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"chiK4"}],"3c92U":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('c7zNS') + "santa-laugh.b8a23148.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"chiK4"}],"kqn90":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('c7zNS') + "santa-lowlaugh.717653ca.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"chiK4"}],"ibqhH":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('c7zNS') + "santa-merry.f9fea409.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"chiK4"}],"22Nic":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('c7zNS') + "santa-pain.ab0833ed.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"chiK4"}],"9O4oF":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('c7zNS') + "santa-loop.24edd962.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"chiK4"}],"6Bx9b":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "canvasSky", ()=>canvasSky
+);
+parcelHelpers.export(exports, "canvasGame", ()=>canvasGame
+);
+var _index = require("../data/index");
+const skyNode = document.querySelector("#sky");
+skyNode.width = _index.WIDTH;
+skyNode.height = _index.HEIGHT;
+const canvasSky = skyNode.getContext("2d");
+const gameNode = document.querySelector("#game");
+gameNode.width = _index.WIDTH;
+gameNode.height = _index.HEIGHT;
+const canvasGame = gameNode.getContext("2d");
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV","../data/index":"f843F"}],"f843F":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "COLORS", ()=>COLORS
+);
+parcelHelpers.export(exports, "COUNTER_RADIUSES", ()=>COUNTER_RADIUSES
+);
+parcelHelpers.export(exports, "FLOOR_HEIGHT", ()=>FLOOR_HEIGHT
+);
+parcelHelpers.export(exports, "HEIGHT", ()=>HEIGHT
+);
+parcelHelpers.export(exports, "MAX_FLAKES", ()=>MAX_FLAKES
+);
+parcelHelpers.export(exports, "WIDTH", ()=>WIDTH
+);
+const COLORS = {
+    GREEN: "#42f462",
+    SOFT_GREEN: "#b5f441",
+    WHITE: "#fff",
+    RED: "#e00d2d",
+    SKY_BLUE: "#102a54",
+    SNOW_WHITE: "#F7F4FA"
+};
+const COUNTER_RADIUSES = [
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    70,
+    69,
+    68,
+    67,
+    66,
+    65,
+    64,
+    63,
+    62,
+    61,
+    60, 
+];
+const FLOOR_HEIGHT = 90;
+const HEIGHT = window.innerHeight;
+const MAX_FLAKES = 100;
+const WIDTH = window.innerWidth;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"gei8j":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "playAudio", ()=>playAudio
+);
+function playAudio(audio, timeout = 2000) {
+    audio.play();
+    setTimeout(()=>{
+        audio.pause();
+        audio.currentTime = 0;
+    }, timeout);
 }
 
-},{".":"jRKZy","../global-state":"6Ocq5","../data":"f843F","../data/images":"1tFbn","../canvas":"6Bx9b","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"l1ME9":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"lKOZb":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "scoreBox", ()=>scoreBox
+);
+parcelHelpers.export(exports, "getScoreColor", ()=>getScoreColor
+);
+parcelHelpers.export(exports, "playAudioBasedOnScore", ()=>playAudioBasedOnScore
+);
+var _index = require("../canvas/index");
+var _audio = require("../data/audio");
+var _index1 = require("../data/index");
+var _audio1 = require("../engine/audio");
+var _globalState = require("../global-state");
+let zoomInterval = null;
+let scoreBox = {
+    flashInterval: null,
+    visible: true,
+    zoom () {
+        let count = 0;
+        zoomInterval = setInterval(()=>{
+            _globalState.updateScoreRadius(_index1.COUNTER_RADIUSES[count]);
+            count++;
+            if (count === _index1.COUNTER_RADIUSES.length) clearInterval(zoomInterval);
+        }, 50);
+    },
+    flash () {
+        let count = 0;
+        this.flashInterval = setInterval(()=>{
+            scoreBox.visible = !scoreBox.visible;
+            count++;
+            if (count === 6) {
+                clearInterval(scoreBox.flashInterval);
+                scoreBox.visible = true;
+            }
+        }, 150);
+    },
+    stopFlash () {
+        this.flashInterval = null;
+        this.visible = true;
+    },
+    update (score) {
+        if (this.visible) {
+            _index.canvasGame.beginPath();
+            _index.canvasGame.arc(_index1.WIDTH - 115, 120, _globalState.radius, 0, 2 * Math.PI);
+            _index.canvasGame.lineWidth = 6;
+            _index.canvasGame.stroke();
+            _index.canvasGame.font = "bold 70px sans-serif";
+            _index.canvasGame.fillStyle = _index1.COLORS.WHITE;
+            _index.canvasGame.textAlign = "center";
+            _index.canvasGame.textBaseline = "middle";
+            _index.canvasGame.fillText(score.toString(), _index1.WIDTH - 115, 120);
+            _index.canvasGame.strokeStyle = getScoreColor(score);
+            playAudioBasedOnScore(score);
+            _index.canvasGame.closePath();
+        }
+    }
+};
+function getScoreColor(score) {
+    if (score > 15) return _index1.COLORS.GREEN;
+    if (score >= 10) return _index1.COLORS.SOFT_GREEN;
+    if (score > 5) return _index1.COLORS.WHITE;
+    return _index1.COLORS.RED;
+}
+function playAudioBasedOnScore(score) {
+    if (score <= 0) _audio1.playAudio(_audio.laughLow);
+    if (score === 10) _audio1.playAudio(_audio.laugh);
+    if (score === 15) _audio1.playAudio(_audio.goodBoy, 2500);
+    if (score === 20) _audio1.playAudio(_audio.merry);
+}
+
+},{"../global-state":"6Ocq5","../data/audio":"9IypU","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV","../canvas/index":"6Bx9b","../data/index":"f843F","../engine/audio":"gei8j"}],"3x1U5":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "snow", ()=>snow
+);
+var _index = require("./index");
+var _index1 = require("../data/index");
+var _images = require("../data/images");
+const snow = {
+    x: 0,
+    y: _index1.HEIGHT - 235,
+    width: _index1.WIDTH,
+    height: 300,
+    draw () {
+        _index.canvasGame.drawImage(_images.snowImg, this.x, this.y, this.width, this.height);
+    }
+};
+
+},{"./index":"6Bx9b","../data/index":"f843F","../data/images":"1tFbn","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"l1ME9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "santa", ()=>santa
 );
+var _index = require("../canvas/index");
 var _images = require("../data/images");
-var _canvas = require("../canvas");
-var _data = require("../data");
+var _index1 = require("../data/index");
 const santa = {
     x: 300,
-    y: _data.HEIGHT - 223,
+    y: _index1.HEIGHT - 223,
     width: 150,
     height: 150,
     spriteX: 0,
@@ -980,26 +1049,9 @@ const santa = {
     flashInterval: null,
     visible: true,
     draw () {
-        if (this.visible) _canvas.canvasGame.drawImage(this.image, this.spriteX, this.spriteY, this.width, this.height, this.x, this.y, this.width, this.height);
+        if (this.visible) _index.canvasGame.drawImage(this.image, this.spriteX, this.spriteY, this.width, this.height, this.x, this.y, this.width, this.height);
     },
-    stopWalking () {
-        clearInterval(this.walkInterval);
-        this.walkInterval = null;
-        this.spriteX = 0;
-        this.spriteY = 450;
-    },
-    startWalking () {
-        if (this.walkInterval) return null;
-        this.walkInterval = setInterval(()=>{
-            this.spriteX += 150;
-            if (this.spriteX === 600) {
-                this.spriteX = 0;
-                this.spriteY += 150;
-                if (this.spriteY === 600) this.spriteY = 0;
-            }
-        }, 75);
-    },
-    santaClick () {
+    flash () {
         let count = 0;
         this.flashInterval = setInterval(()=>{
             this.visible = !this.visible;
@@ -1010,25 +1062,47 @@ const santa = {
             }
         }, 150);
     },
-    restart () {
+    stopFlash () {
+        clearInterval(this.flashInterval);
+        this.visible = true;
+    },
+    stopWalk () {
+        clearInterval(this.walkInterval);
+        this.walkInterval = null;
+        this.spriteX = 0;
+        this.spriteY = 450;
+    },
+    reset () {
         this.x = 300;
-        this.y = _data.HEIGHT - 223;
-        this.stopWalking();
+        this.y = _index1.HEIGHT - 223;
+        this.flashInterval = null;
+        this.stopWalk();
+    },
+    walk () {
+        if (this.walkInterval) return null;
+        this.walkInterval = setInterval(()=>{
+            this.spriteX += 150;
+            if (this.spriteX === 600) {
+                this.spriteX = 0;
+                this.spriteY += 150;
+                if (this.spriteY === 600) this.spriteY = 0;
+            }
+        }, 75);
     }
 };
 
-},{"../data/images":"1tFbn","../canvas":"6Bx9b","../data":"f843F","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"lgQH4":[function(require,module,exports) {
+},{"../data/images":"1tFbn","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV","../canvas/index":"6Bx9b","../data/index":"f843F"}],"lgQH4":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "animateSky", ()=>animateSky
 );
-var _ = require(".");
-var _data = require("../data");
+var _index = require("./index");
+var _index1 = require("../data/index");
 const flakes = [
-    ...Array(_data.MAX_FLAKES)
+    ...Array(_index1.MAX_FLAKES)
 ].map((_)=>({
-        x: Math.random() * _data.WIDTH,
-        y: Math.random() * _data.HEIGHT,
+        x: Math.random() * _index1.WIDTH,
+        y: Math.random() * _index1.HEIGHT,
         radius: Math.random() * 5 + 2,
         density: Math.random() + 1
     })
@@ -1038,8 +1112,8 @@ function moveFlakes() {
     angle += 0.01;
     flakes.forEach((flake, i)=>{
         flake.y += Math.pow(flake.density, 2) + 1, flake.x += Math.sin(angle) * 2;
-        if (flake.y > _data.HEIGHT - _data.FLOOR_HEIGHT) flakes[i] = {
-            x: Math.random() * _data.WIDTH,
+        if (flake.y > _index1.HEIGHT - _index1.FLOOR_HEIGHT) flakes[i] = {
+            x: Math.random() * _index1.WIDTH,
             y: 0,
             radius: flake.radius,
             density: flake.density
@@ -1047,30 +1121,30 @@ function moveFlakes() {
     });
 }
 function drawFlakes() {
-    _.canvasSky.clearRect(0, 0, _data.WIDTH, _data.HEIGHT);
-    _.canvasSky.fillStyle = "white";
-    _.canvasSky.beginPath();
+    _index.canvasSky.clearRect(0, 0, _index1.WIDTH, _index1.HEIGHT);
+    _index.canvasSky.fillStyle = _index1.COLORS.WHITE;
+    _index.canvasSky.beginPath();
     flakes.forEach((flake)=>{
-        _.canvasSky.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2, true);
-        _.canvasSky.moveTo(flake.x, flake.y); // place the flakes to it x,y coordinates.
+        _index.canvasSky.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2, true);
+        _index.canvasSky.moveTo(flake.x, flake.y);
     });
-    _.canvasSky.fill();
+    _index.canvasSky.fill();
     moveFlakes();
 }
 function animateSky() {
     setInterval(drawFlakes, 25);
 }
 
-},{".":"6Bx9b","../data":"f843F","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"puiT9":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV","./index":"6Bx9b","../data/index":"f843F"}],"puiT9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "initControls", ()=>initControls
 );
-var _globalState = require("../global-state");
-var _santa = require("../santa");
 var _images = require("../data/images");
+var _globalState = require("../global-state");
 var _angry = require("../letters/angry");
-var _letters = require("../letters");
+var _index = require("../letters/index");
+var _index1 = require("../santa/index");
 function initControls() {
     document.onkeydown = (event)=>{
         switch(event.keyCode){
@@ -1078,30 +1152,30 @@ function initControls() {
                 restart();
                 break;
         }
-        if (_globalState.score >= 20 || _globalState.score <= 0) return;
-        _santa.santa.startWalking();
+        if (_globalState.score >= 20 || _globalState.score <= 0) return null;
+        _index1.santa.walk();
         switch(event.keyCode){
             case 37:
-                _santa.santa.image = _images.santaReverse;
-                _santa.santa.x -= 20;
+                _index1.santa.image = _images.santaReverse;
+                _index1.santa.x -= 20;
                 break;
             case 39:
-                _santa.santa.image = _images.santaImg;
-                _santa.santa.x += 20;
+                _index1.santa.image = _images.santaImg;
+                _index1.santa.x += 20;
                 break;
         }
     };
     document.onkeyup = ()=>{
-        _santa.santa.stopWalking();
+        _index1.santa.stopWalk();
     };
 }
 function restart() {
     _globalState.updateScore(8);
-    _santa.santa.restart();
-    _angry.fillAngryLetters();
-    _letters.fillLetters();
+    _index1.santa.reset();
+    _angry.refillAngryLetters();
+    _index.refillLetters();
 }
 
-},{"../global-state":"6Ocq5","../santa":"l1ME9","../data/images":"1tFbn","../letters/angry":"guRhh","../letters":"jRKZy","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}]},["dSo4d","2RQX4"], "2RQX4", "parcelRequireaedd")
+},{"../global-state":"6Ocq5","../data/images":"1tFbn","../letters/angry":"guRhh","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV","../letters/index":"jRKZy","../santa/index":"l1ME9"}]},["dSo4d","2RQX4"], "2RQX4", "parcelRequireaedd")
 
 //# sourceMappingURL=index.edcf2fcb.js.map
