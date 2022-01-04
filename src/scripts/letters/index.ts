@@ -34,7 +34,7 @@ export class Letter {
 
 export const fillLetters = () =>
   [...Array(10)].map(
-    (_, i) => new Letter(Math.floor(Math.random() * WIDTH), i * 200, 50, 50)
+    (_, i) => new Letter(Math.floor(Math.random() * WIDTH), i * -200, 50, 50)
   );
 
 export let letters: ILetter[] = fillLetters();

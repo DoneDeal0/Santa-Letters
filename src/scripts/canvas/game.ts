@@ -1,7 +1,7 @@
 import { canvasGame } from ".";
 import { snowImg, gameoverImg, winImg } from "../data/images";
 import { HEIGHT, WIDTH, COLORS } from "../data";
-import { radius, score } from "../global-state";
+import { score } from "../global-state";
 import { scoreBox } from "../score";
 import { drawLetters } from "../letters";
 import { drawAngryLetters } from "../letters/angry";
