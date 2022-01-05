@@ -17,7 +17,7 @@ class AngryLetter extends Letter {
     if (score > 0) {
       this.y += 1;
     }
-    if (this.y > HEIGHT && this.caught === false) {
+    if (this.y > HEIGHT && !this.caught) {
       this.y = -500;
     }
     canvasGame.drawImage(
@@ -30,11 +30,12 @@ class AngryLetter extends Letter {
   }
 }
 
+function createAngryLetter(xPosition: number = 0) {
+  return new AngryLetter(Math.floor(Math.random() * WIDTH), xPosition, 50, 50);
+}
+
 const fillAngryLetters = () =>
-  [...Array(3)].map(
-    (_, i) =>
-      new AngryLetter(Math.floor(Math.random() * WIDTH), i * -600, 50, 50)
-  );
+  [...Array(3)].map((_, i) => createAngryLetter(i * -600));
 
 export let angryLetters: ILetter[] = fillAngryLetters();
 
@@ -51,6 +52,7 @@ export function drawAngryLetters(score: number, santa: ISanta) {
       santa.flash();
       scoreBox.flash();
       playAudio(pain);
+      angryLetters.push(createAngryLetter(-500));
     }
   });
 }

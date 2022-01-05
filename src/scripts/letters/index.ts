@@ -25,7 +25,7 @@ export class Letter {
     if (score > 0) {
       this.y += 1;
     }
-    if (this.y > HEIGHT && this.caught === false) {
+    if (this.y > HEIGHT && !this.caught) {
       this.y = -500;
       updateScore(score - 1);
     }

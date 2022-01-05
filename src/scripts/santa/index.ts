@@ -3,6 +3,9 @@ import { santaImg } from "../data/images";
 import { HEIGHT } from "../data/index";
 import { ISanta } from "../../models/index";
 
+let flashInterval: NodeJS.Timeout = null;
+let walkInterval: NodeJS.Timeout = null;
+
 export const santa: ISanta = {
   x: 300,
   y: HEIGHT - 223,
@@ -11,8 +14,6 @@ export const santa: ISanta = {
   spriteX: 0,
   spriteY: 450,
   image: santaImg,
-  walkInterval: null,
-  flashInterval: null,
   visible: true,
   draw() {
     if (this.visible) {
@@ -32,24 +33,24 @@ export const santa: ISanta = {
 
   flash() {
     let count = 0;
-    this.flashInterval = setInterval(() => {
+    flashInterval = setInterval(() => {
       this.visible = !this.visible;
       count++;
       if (count === 6) {
-        clearInterval(this.flashInterval);
+        clearInterval(flashInterval);
         this.visible = true;
       }
     }, 150);
   },
 
   stopFlash() {
-    clearInterval(this.flashInterval);
+    clearInterval(flashInterval);
     this.visible = true;
   },
 
   stopWalk() {
-    clearInterval(this.walkInterval);
-    this.walkInterval = null;
+    clearInterval(walkInterval);
+    walkInterval = null;
     this.spriteX = 0;
     this.spriteY = 450;
   },
@@ -57,15 +58,15 @@ export const santa: ISanta = {
   reset() {
     this.x = 300;
     this.y = HEIGHT - 223;
-    this.flashInterval = null;
+    flashInterval = null;
     this.stopWalk();
   },
 
   walk() {
-    if (this.walkInterval) {
+    if (walkInterval) {
       return null;
     }
-    this.walkInterval = setInterval(() => {
+    walkInterval = setInterval(() => {
       this.spriteX += 150;
       if (this.spriteX === 600) {
         this.spriteX = 0;

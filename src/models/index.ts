@@ -25,8 +25,6 @@ export type ISanta = {
   height: number;
   spriteX: number;
   spriteY: number;
-  walkInterval: NodeJS.Timer;
-  flashInterval: NodeJS.Timer;
   visible: boolean;
   image: HTMLImageElement;
   draw: () => void;
@@ -38,7 +36,6 @@ export type ISanta = {
 };
 
 export type IScore = {
-  flashInterval: NodeJS.Timer;
   visible: boolean;
   zoom: () => void;
   flash: () => void;

@@ -6,11 +6,10 @@ import { updateScoreRadius, radius } from "../global-state";
 import { IScore } from "../../models/index";
 
 let zoomInterval: NodeJS.Timeout = null;
+let flashInterval: NodeJS.Timeout = null;
 
 export let scoreBox: IScore = {
-  flashInterval: null,
   visible: true,
-
   zoom() {
     let count = 0;
     zoomInterval = setInterval(() => {
@@ -24,18 +23,18 @@ export let scoreBox: IScore = {
 
   flash() {
     let count = 0;
-    this.flashInterval = setInterval(() => {
-      scoreBox.visible = !scoreBox.visible;
+    flashInterval = setInterval(() => {
+      this.visible = !this.visible;
       count++;
       if (count === 6) {
-        clearInterval(scoreBox.flashInterval);
-        scoreBox.visible = true;
+        clearInterval(flashInterval);
+        this.visible = true;
       }
     }, 150);
   },
 
   stopFlash() {
-    this.flashInterval = null;
+    flashInterval = null;
     this.visible = true;
   },
 
