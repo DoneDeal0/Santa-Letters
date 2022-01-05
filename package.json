@@ -9,6 +9,18 @@
     "build": "parcel build",
     "tsc": "tsc --noEmit"
   },
+  "alias": {
+    "assets/*": "./src/assets/$1",
+    "canvas/*": "./src/scripts/canvas/$1",
+    "data/*": "./src/scripts/data/$1",
+    "engine/*": "./src/scripts/engine/$1",
+    "letters/*": "./src/scripts/letters/$1",
+    "santa/*": "./src/scripts/santa/$1",
+    "score/*": "./src/scripts/score/$1",
+    "scripts/*": "./src/scripts/scripts/$1",
+    "styles/*": "./src/styles/$1",
+    "models/*": "./src/models/$1"
+  },
   "devDependencies": {
     "parcel": "^2.0.1"
   }

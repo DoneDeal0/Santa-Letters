@@ -7,7 +7,7 @@
 
 **Santa** has lost **toddler's letters** and must retrieve them before they disappear into the snow. But beware of **angry kids' letters**!
 
-The goal is to score **20 points**. Each letter caught gives you **1 point**, while an angry letter withdraws you **3 points**.
+The goal is to score **20 points**. Each letter caught gives you **1 point**, while an angry letter withdraws you **3 points**. Use your keyboard **arrow keys** to move Santa.
 
 [PLAY NOW](https://santa-letters.netlify.app/)
 

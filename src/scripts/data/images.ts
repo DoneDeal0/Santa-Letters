@@ -1,4 +1,4 @@
-import { Picture } from "../../models/index";
+import { Picture } from "models/index";
 
 const angryLetterImg: Picture = new Image();
 angryLetterImg.src = require("../../assets/images/angry-letter.png");

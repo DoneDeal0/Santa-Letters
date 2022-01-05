@@ -459,10 +459,10 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"bNVhn":[function(require,module,exports) {
-var _game = require("./canvas/game");
-var _sky = require("./canvas/sky");
-var _audio = require("./data/audio");
-var _controls = require("./engine/controls");
+var _game = require("canvas/game");
+var _sky = require("canvas/sky");
+var _audio = require("data/audio");
+var _controls = require("engine/controls");
 const startScreen = document.querySelector("#start-screen");
 const start = document.querySelector("#start-button");
 start.onclick = ()=>{
@@ -475,64 +475,111 @@ start.onclick = ()=>{
     );
 };
 
-},{"./engine/controls":"exR97","./data/audio":"cruN6","./canvas/game":"cKTkl","./canvas/sky":"lcVQO"}],"exR97":[function(require,module,exports) {
+},{"canvas/game":"cKTkl","canvas/sky":"lcVQO","data/audio":"cruN6","engine/controls":"exR97"}],"cKTkl":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "initControls", ()=>initControls
+parcelHelpers.export(exports, "playGame", ()=>playGame
 );
-var _images = require("../data/images");
+var _index = require("canvas/index");
+var _images = require("data/images");
+var _index1 = require("data/index");
 var _globalState = require("../global-state");
-var _angry = require("../letters/angry");
-var _index = require("../letters/index");
-var _index1 = require("../santa/index");
-function initControls() {
-    document.onkeydown = (event)=>{
-        switch(event.keyCode){
-            case 13:
-                restart();
-                break;
-        }
-        if (_globalState.score >= 20 || _globalState.score <= 0) return null;
-        _index1.santa.walk();
-        switch(event.keyCode){
-            case 37:
-                _index1.santa.image = _images.santaReverse;
-                _index1.santa.x -= 20;
-                break;
-            case 39:
-                _index1.santa.image = _images.santaImg;
-                _index1.santa.x += 20;
-                break;
-        }
-    };
-    document.onkeyup = ()=>{
-        _index1.santa.stopWalk();
-    };
+var _index2 = require("score/index");
+var _index3 = require("letters/index");
+var _snow = require("canvas/snow");
+var _index4 = require("santa/index");
+var _angry = require("letters/angry");
+function drawGame() {
+    _index.canvasGame.fillStyle = _index1.COLORS.SNOW_WHITE;
+    _index.canvasGame.fillRect(0, _index1.HEIGHT - 80, _index1.WIDTH, 210);
+    _index4.santa.draw();
+    _index2.scoreBox.update(_globalState.score);
+    _snow.snow.draw();
+    if (_globalState.score <= 0 || _globalState.score >= 20) {
+        const newWidth = _index1.HEIGHT * 0.64;
+        _index.canvasGame.drawImage(_globalState.score < 20 ? _images.gameoverImg : _images.winImg, _index1.WIDTH / 2 - newWidth / 2, 100, newWidth, _index1.HEIGHT * 0.7);
+        _index.canvasGame.font = "bold 25px sans-serif";
+        _index.canvasGame.fillText("PRESS ENTER TO PLAY AGAIN", _index1.WIDTH / 2, 70);
+        _index4.santa.stopFlash();
+        return;
+    }
+    _index3.drawLetters(_globalState.score, _index4.santa);
+    _angry.drawAngryLetters(_globalState.score, _index4.santa);
 }
-function restart() {
-    _globalState.updateScore(8);
-    _index1.santa.reset();
-    _angry.refillAngryLetters();
-    _index.refillLetters();
+function playGame() {
+    _index.canvasGame.clearRect(0, 0, _index1.WIDTH, _index1.HEIGHT);
+    drawGame();
+    requestAnimationFrame(()=>playGame()
+    );
 }
 
-},{"../global-state":"jmmMe","../data/images":"lt8Lu","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","../santa/index":"cPV7I","../letters/index":"1YnLD","../letters/angry":"8Ixhp"}],"jmmMe":[function(require,module,exports) {
+},{"canvas/index":"8g4Lj","data/images":"lt8Lu","data/index":"86RTc","score/index":"2Vba4","letters/index":"1YnLD","canvas/snow":"231wK","santa/index":"cPV7I","letters/angry":"8Ixhp","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","../global-state":"jmmMe"}],"8g4Lj":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "score", ()=>score
+parcelHelpers.export(exports, "canvasSky", ()=>canvasSky
 );
-parcelHelpers.export(exports, "radius", ()=>radius
+parcelHelpers.export(exports, "canvasGame", ()=>canvasGame
 );
-parcelHelpers.export(exports, "updateScore", ()=>updateScore
+var _index = require("data/index");
+const skyNode = document.querySelector("#sky");
+skyNode.width = _index.WIDTH;
+skyNode.height = _index.HEIGHT;
+const canvasSky = skyNode.getContext("2d");
+const gameNode = document.querySelector("#game");
+gameNode.width = _index.WIDTH;
+gameNode.height = _index.HEIGHT;
+const canvasGame = gameNode.getContext("2d");
+
+},{"data/index":"86RTc","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5"}],"86RTc":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "COLORS", ()=>COLORS
 );
-parcelHelpers.export(exports, "updateScoreRadius", ()=>updateScoreRadius
+parcelHelpers.export(exports, "COUNTER_RADIUSES", ()=>COUNTER_RADIUSES
 );
-let score = 8;
-let radius = 60;
-const updateScore = (newScore)=>score = newScore
-;
-const updateScoreRadius = (newRadius)=>radius = newRadius
-;
+parcelHelpers.export(exports, "FLOOR_HEIGHT", ()=>FLOOR_HEIGHT
+);
+parcelHelpers.export(exports, "HEIGHT", ()=>HEIGHT
+);
+parcelHelpers.export(exports, "MAX_FLAKES", ()=>MAX_FLAKES
+);
+parcelHelpers.export(exports, "WIDTH", ()=>WIDTH
+);
+const COLORS = {
+    GREEN: "#42f462",
+    SOFT_GREEN: "#b5f441",
+    WHITE: "#fff",
+    RED: "#e00d2d",
+    SKY_BLUE: "#102a54",
+    SNOW_WHITE: "#F7F4FA"
+};
+const COUNTER_RADIUSES = [
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    70,
+    69,
+    68,
+    67,
+    66,
+    65,
+    64,
+    63,
+    62,
+    61,
+    60, 
+];
+const FLOOR_HEIGHT = 90;
+const HEIGHT = window.innerHeight;
+const MAX_FLAKES = 100;
+const WIDTH = window.innerWidth;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"h64g5"}],"h64g5":[function(require,module,exports) {
 exports.interopDefault = function(a) {
@@ -600,8 +647,8 @@ snowImg.src = require("../../assets/images/snow.png");
 const winImg = new Image();
 winImg.src = require("../../assets/images/win.jpg");
 
-},{"../../assets/images/snow.png":"4Dqzh","../../assets/images/letter.png":"862hI","../../assets/images/win.jpg":"hk3FE","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","../../assets/images/angry-letter.png":"eQ3d8","../../assets/images/game-over.jpg":"dVaXx","../../assets/sprites/letter-catch-sprite.png":"hzcWj","../../assets/sprites/santa-sprite.jpg":"d5OUG","../../assets/sprites/santa-sprite-reverse.png":"dt4yT"}],"4Dqzh":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "snow.e92dab12.png" + "?" + Date.now();
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","../../assets/images/angry-letter.png":"eQ3d8","../../assets/images/game-over.jpg":"dVaXx","../../assets/sprites/letter-catch-sprite.png":"hzcWj","../../assets/images/letter.png":"862hI","../../assets/sprites/santa-sprite.jpg":"d5OUG","../../assets/sprites/santa-sprite-reverse.png":"dt4yT","../../assets/images/snow.png":"4Dqzh","../../assets/images/win.jpg":"hk3FE"}],"eQ3d8":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "angry-letter.5c50e0b2.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"enYq9"}],"enYq9":[function(require,module,exports) {
 "use strict";
@@ -638,20 +685,14 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"862hI":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "letter.1c3b4543.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"enYq9"}],"hk3FE":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "win.63d59236.jpg" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"enYq9"}],"eQ3d8":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "angry-letter.5c50e0b2.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"enYq9"}],"dVaXx":[function(require,module,exports) {
+},{}],"dVaXx":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "game-over.563e91fb.jpg" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"enYq9"}],"hzcWj":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "letter-catch-sprite.87cbd7e4.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"enYq9"}],"862hI":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "letter.1c3b4543.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"enYq9"}],"d5OUG":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-sprite.7939a3e7.jpg" + "?" + Date.now();
@@ -659,27 +700,37 @@ module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-
 },{"./helpers/bundle-url":"enYq9"}],"dt4yT":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-sprite-reverse.139320a7.png" + "?" + Date.now();
 
-},{"./helpers/bundle-url":"enYq9"}],"cPV7I":[function(require,module,exports) {
+},{"./helpers/bundle-url":"enYq9"}],"4Dqzh":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "snow.e92dab12.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"enYq9"}],"hk3FE":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "win.63d59236.jpg" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"enYq9"}],"2Vba4":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "santa", ()=>santa
+parcelHelpers.export(exports, "scoreBox", ()=>scoreBox
 );
-var _index = require("../canvas/index");
-var _images = require("../data/images");
-var _index1 = require("../data/index");
+parcelHelpers.export(exports, "getScoreColor", ()=>getScoreColor
+);
+parcelHelpers.export(exports, "playAudioBasedOnScore", ()=>playAudioBasedOnScore
+);
+var _index = require("canvas/index");
+var _audio = require("data/audio");
+var _index1 = require("data/index");
+var _audio1 = require("engine/audio");
+var _globalState = require("../global-state");
+let zoomInterval = null;
 let flashInterval = null;
-let walkInterval = null;
-const santa = {
-    x: 300,
-    y: _index1.HEIGHT - 223,
-    width: 150,
-    height: 150,
-    spriteX: 0,
-    spriteY: 450,
-    image: _images.santaImg,
+let scoreBox = {
     visible: true,
-    draw () {
-        if (this.visible) _index.canvasGame.drawImage(this.image, this.spriteX, this.spriteY, this.width, this.height, this.x, this.y, this.width, this.height);
+    zoom () {
+        let count = 0;
+        zoomInterval = setInterval(()=>{
+            _globalState.updateScoreRadius(_index1.COUNTER_RADIUSES[count]);
+            count++;
+            if (count === _index1.COUNTER_RADIUSES.length) clearInterval(zoomInterval);
+        }, 50);
     },
     flash () {
         let count = 0;
@@ -693,101 +744,129 @@ const santa = {
         }, 150);
     },
     stopFlash () {
-        clearInterval(flashInterval);
+        flashInterval = null;
         this.visible = true;
     },
-    stopWalk () {
-        clearInterval(walkInterval);
-        walkInterval = null;
-        this.spriteX = 0;
-        this.spriteY = 450;
-    },
-    reset () {
-        this.x = 300;
-        this.y = _index1.HEIGHT - 223;
-        flashInterval = null;
-        this.stopWalk();
-    },
-    walk () {
-        if (walkInterval) return null;
-        walkInterval = setInterval(()=>{
-            this.spriteX += 150;
-            if (this.spriteX === 600) {
-                this.spriteX = 0;
-                this.spriteY += 150;
-                if (this.spriteY === 600) this.spriteY = 0;
-            }
-        }, 75);
+    update (score) {
+        if (this.visible) {
+            _index.canvasGame.beginPath();
+            _index.canvasGame.arc(_index1.WIDTH - 115, 120, _globalState.radius, 0, 2 * Math.PI);
+            _index.canvasGame.lineWidth = 6;
+            _index.canvasGame.stroke();
+            _index.canvasGame.font = "bold 70px sans-serif";
+            _index.canvasGame.fillStyle = _index1.COLORS.WHITE;
+            _index.canvasGame.textAlign = "center";
+            _index.canvasGame.textBaseline = "middle";
+            _index.canvasGame.fillText(score.toString(), _index1.WIDTH - 115, 120);
+            _index.canvasGame.strokeStyle = getScoreColor(score);
+            playAudioBasedOnScore(score);
+            _index.canvasGame.closePath();
+        }
     }
 };
+function getScoreColor(score) {
+    if (score > 15) return _index1.COLORS.GREEN;
+    if (score >= 10) return _index1.COLORS.SOFT_GREEN;
+    if (score > 5) return _index1.COLORS.WHITE;
+    return _index1.COLORS.RED;
+}
+function playAudioBasedOnScore(score) {
+    if (score <= 0) _audio1.playAudio(_audio.laughLow);
+    if (score === 10) _audio1.playAudio(_audio.laugh);
+    if (score === 15) _audio1.playAudio(_audio.goodBoy, 2500);
+    if (score === 20) _audio1.playAudio(_audio.merry);
+}
 
-},{"../data/images":"lt8Lu","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","../canvas/index":"8g4Lj","../data/index":"86RTc"}],"8g4Lj":[function(require,module,exports) {
+},{"canvas/index":"8g4Lj","data/audio":"cruN6","data/index":"86RTc","engine/audio":"5Kiec","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","../global-state":"jmmMe"}],"cruN6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "canvasSky", ()=>canvasSky
+parcelHelpers.export(exports, "bell", ()=>bell
 );
-parcelHelpers.export(exports, "canvasGame", ()=>canvasGame
+parcelHelpers.export(exports, "goodBoy", ()=>goodBoy
 );
-var _index = require("../data/index");
-const skyNode = document.querySelector("#sky");
-skyNode.width = _index.WIDTH;
-skyNode.height = _index.HEIGHT;
-const canvasSky = skyNode.getContext("2d");
-const gameNode = document.querySelector("#game");
-gameNode.width = _index.WIDTH;
-gameNode.height = _index.HEIGHT;
-const canvasGame = gameNode.getContext("2d");
+parcelHelpers.export(exports, "laugh", ()=>laugh
+);
+parcelHelpers.export(exports, "laughLow", ()=>laughLow
+);
+parcelHelpers.export(exports, "merry", ()=>merry
+);
+parcelHelpers.export(exports, "pain", ()=>pain
+);
+parcelHelpers.export(exports, "theme", ()=>theme
+);
+const bellSound = new URL(require("515076d5090a1438"));
+const goodBoySound = new URL(require("8cefd70e05f2f329"));
+const laughSound = new URL(require("6f9c51090d095d7b"));
+const laughLowSound = new URL(require("8636027ac2ded853"));
+const merrySound = new URL(require("9707ead4b87c1980"));
+const painSound = new URL(require("3c650e73f4a47001"));
+const themeSound = new URL(require("7c50e48f3c4c4655"));
+const bell = new Audio(bellSound);
+const goodBoy = new Audio(goodBoySound);
+const laugh = new Audio(laughSound);
+const laughLow = new Audio(laughLowSound);
+const merry = new Audio(merrySound);
+const pain = new Audio(painSound);
+const theme = new Audio(themeSound);
+goodBoy.volume = 0.5;
+laugh.volume = 0.3;
+laughLow.volume = 0.3;
+merry.volume = 0.6;
+pain.volume = 0.4;
+theme.volume = 0.3;
+theme.loop = true;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","../data/index":"86RTc"}],"86RTc":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","515076d5090a1438":"8oC2y","8cefd70e05f2f329":"jfICR","6f9c51090d095d7b":"avB9U","8636027ac2ded853":"47GiA","9707ead4b87c1980":"bPeot","3c650e73f4a47001":"jUta6","7c50e48f3c4c4655":"6Iasx"}],"8oC2y":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-bell.d06b7a79.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"enYq9"}],"jfICR":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-goodboy.2531d805.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"enYq9"}],"avB9U":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-laugh.fc495730.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"enYq9"}],"47GiA":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-lowlaugh.20bd278f.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"enYq9"}],"bPeot":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-merry.6638f0aa.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"enYq9"}],"jUta6":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-pain.06f64275.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"enYq9"}],"6Iasx":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-loop.7b31db0d.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"enYq9"}],"5Kiec":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "COLORS", ()=>COLORS
+parcelHelpers.export(exports, "playAudio", ()=>playAudio
 );
-parcelHelpers.export(exports, "COUNTER_RADIUSES", ()=>COUNTER_RADIUSES
+function playAudio(audio, timeout = 2000) {
+    audio.play();
+    setTimeout(()=>{
+        audio.pause();
+        audio.currentTime = 0;
+    }, timeout);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"h64g5"}],"jmmMe":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "score", ()=>score
 );
-parcelHelpers.export(exports, "FLOOR_HEIGHT", ()=>FLOOR_HEIGHT
+parcelHelpers.export(exports, "radius", ()=>radius
 );
-parcelHelpers.export(exports, "HEIGHT", ()=>HEIGHT
+parcelHelpers.export(exports, "updateScore", ()=>updateScore
 );
-parcelHelpers.export(exports, "MAX_FLAKES", ()=>MAX_FLAKES
+parcelHelpers.export(exports, "updateScoreRadius", ()=>updateScoreRadius
 );
-parcelHelpers.export(exports, "WIDTH", ()=>WIDTH
-);
-const COLORS = {
-    GREEN: "#42f462",
-    SOFT_GREEN: "#b5f441",
-    WHITE: "#fff",
-    RED: "#e00d2d",
-    SKY_BLUE: "#102a54",
-    SNOW_WHITE: "#F7F4FA"
-};
-const COUNTER_RADIUSES = [
-    61,
-    62,
-    63,
-    64,
-    65,
-    66,
-    67,
-    68,
-    69,
-    70,
-    70,
-    69,
-    68,
-    67,
-    66,
-    65,
-    64,
-    63,
-    62,
-    61,
-    60, 
-];
-const FLOOR_HEIGHT = 90;
-const HEIGHT = window.innerHeight;
-const MAX_FLAKES = 100;
-const WIDTH = window.innerWidth;
+let score = 8;
+let radius = 60;
+const updateScore = (newScore)=>score = newScore
+;
+const updateScoreRadius = (newRadius)=>radius = newRadius
+;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"h64g5"}],"1YnLD":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -802,14 +881,14 @@ parcelHelpers.export(exports, "drawLetters", ()=>drawLetters
 );
 parcelHelpers.export(exports, "letterHit", ()=>letterHit
 );
-var _index = require("../canvas/index");
-var _index1 = require("../data/index");
-var _audio = require("../data/audio");
-var _images = require("../data/images");
-var _audio1 = require("../engine/audio");
-var _collision = require("../engine/collision");
+var _index = require("canvas/index");
+var _index1 = require("data/index");
+var _audio = require("data/audio");
+var _images = require("data/images");
+var _audio1 = require("engine/audio");
+var _collision = require("engine/collision");
 var _globalState = require("../global-state");
-var _index2 = require("../score/index");
+var _index2 = require("score/index");
 class Letter {
     constructor(x, y, width, height){
         this.x = x;
@@ -872,7 +951,7 @@ const letterHit = {
     }
 };
 
-},{"../global-state":"jmmMe","../data/images":"lt8Lu","../engine/collision":"hFAvh","../data/audio":"cruN6","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","../data/index":"86RTc","../canvas/index":"8g4Lj","../score/index":"2Vba4","../engine/audio":"5Kiec"}],"hFAvh":[function(require,module,exports) {
+},{"canvas/index":"8g4Lj","data/index":"86RTc","data/audio":"cruN6","data/images":"lt8Lu","engine/audio":"5Kiec","engine/collision":"hFAvh","score/index":"2Vba4","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","../global-state":"jmmMe"}],"hFAvh":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "isCollision", ()=>isCollision
@@ -881,90 +960,45 @@ function isCollision(santa, letter) {
     return santa.y + santa.height >= letter.y && santa.y <= letter.y + letter.height && santa.x + santa.width >= letter.x && santa.x <= letter.x + letter.width;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"h64g5"}],"cruN6":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"h64g5"}],"231wK":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "bell", ()=>bell
+parcelHelpers.export(exports, "snow", ()=>snow
 );
-parcelHelpers.export(exports, "goodBoy", ()=>goodBoy
-);
-parcelHelpers.export(exports, "laugh", ()=>laugh
-);
-parcelHelpers.export(exports, "laughLow", ()=>laughLow
-);
-parcelHelpers.export(exports, "merry", ()=>merry
-);
-parcelHelpers.export(exports, "pain", ()=>pain
-);
-parcelHelpers.export(exports, "theme", ()=>theme
-);
-const bellSound = new URL(require("515076d5090a1438"));
-const goodBoySound = new URL(require("8cefd70e05f2f329"));
-const laughSound = new URL(require("6f9c51090d095d7b"));
-const laughLowSound = new URL(require("8636027ac2ded853"));
-const merrySound = new URL(require("9707ead4b87c1980"));
-const painSound = new URL(require("3c650e73f4a47001"));
-const themeSound = new URL(require("7c50e48f3c4c4655"));
-const bell = new Audio(bellSound);
-const goodBoy = new Audio(goodBoySound);
-const laugh = new Audio(laughSound);
-const laughLow = new Audio(laughLowSound);
-const merry = new Audio(merrySound);
-const pain = new Audio(painSound);
-const theme = new Audio(themeSound);
-goodBoy.volume = 0.5;
-laugh.volume = 0.3;
-laughLow.volume = 0.3;
-merry.volume = 0.6;
-pain.volume = 0.4;
-theme.volume = 0.3;
+var _index = require("canvas/index");
+var _index1 = require("data/index");
+var _images = require("data/images");
+const snow = {
+    x: 0,
+    y: _index1.HEIGHT - 235,
+    width: _index1.WIDTH,
+    height: 300,
+    draw () {
+        _index.canvasGame.drawImage(_images.snowImg, this.x, this.y, this.width, this.height);
+    }
+};
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","515076d5090a1438":"8oC2y","6f9c51090d095d7b":"avB9U","8636027ac2ded853":"47GiA","8cefd70e05f2f329":"jfICR","9707ead4b87c1980":"bPeot","3c650e73f4a47001":"jUta6","7c50e48f3c4c4655":"6Iasx"}],"8oC2y":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-bell.d06b7a79.mp3" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"enYq9"}],"avB9U":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-laugh.fc495730.mp3" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"enYq9"}],"47GiA":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-lowlaugh.20bd278f.mp3" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"enYq9"}],"jfICR":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-goodboy.2531d805.mp3" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"enYq9"}],"bPeot":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-merry.6638f0aa.mp3" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"enYq9"}],"jUta6":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-pain.06f64275.mp3" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"enYq9"}],"6Iasx":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('7bWsL') + "santa-loop.7b31db0d.mp3" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"enYq9"}],"2Vba4":[function(require,module,exports) {
+},{"canvas/index":"8g4Lj","data/index":"86RTc","data/images":"lt8Lu","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5"}],"cPV7I":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "scoreBox", ()=>scoreBox
+parcelHelpers.export(exports, "santa", ()=>santa
 );
-parcelHelpers.export(exports, "getScoreColor", ()=>getScoreColor
-);
-parcelHelpers.export(exports, "playAudioBasedOnScore", ()=>playAudioBasedOnScore
-);
-var _index = require("../canvas/index");
-var _audio = require("../data/audio");
-var _index1 = require("../data/index");
-var _audio1 = require("../engine/audio");
-var _globalState = require("../global-state");
-let zoomInterval = null;
+var _index = require("canvas/index");
+var _images = require("data/images");
+var _index1 = require("data/index");
 let flashInterval = null;
-let scoreBox = {
+let walkInterval = null;
+const santa = {
+    x: 300,
+    y: _index1.HEIGHT - 223,
+    width: 150,
+    height: 150,
+    spriteX: 0,
+    spriteY: 450,
+    image: _images.santaImg,
     visible: true,
-    zoom () {
-        let count = 0;
-        zoomInterval = setInterval(()=>{
-            _globalState.updateScoreRadius(_index1.COUNTER_RADIUSES[count]);
-            count++;
-            if (count === _index1.COUNTER_RADIUSES.length) clearInterval(zoomInterval);
-        }, 50);
+    draw () {
+        if (this.visible) _index.canvasGame.drawImage(this.image, this.spriteX, this.spriteY, this.width, this.height, this.x, this.y, this.width, this.height);
     },
     flash () {
         let count = 0;
@@ -978,53 +1012,35 @@ let scoreBox = {
         }, 150);
     },
     stopFlash () {
-        flashInterval = null;
+        clearInterval(flashInterval);
         this.visible = true;
     },
-    update (score) {
-        if (this.visible) {
-            _index.canvasGame.beginPath();
-            _index.canvasGame.arc(_index1.WIDTH - 115, 120, _globalState.radius, 0, 2 * Math.PI);
-            _index.canvasGame.lineWidth = 6;
-            _index.canvasGame.stroke();
-            _index.canvasGame.font = "bold 70px sans-serif";
-            _index.canvasGame.fillStyle = _index1.COLORS.WHITE;
-            _index.canvasGame.textAlign = "center";
-            _index.canvasGame.textBaseline = "middle";
-            _index.canvasGame.fillText(score.toString(), _index1.WIDTH - 115, 120);
-            _index.canvasGame.strokeStyle = getScoreColor(score);
-            playAudioBasedOnScore(score);
-            _index.canvasGame.closePath();
-        }
+    stopWalk () {
+        clearInterval(walkInterval);
+        walkInterval = null;
+        this.spriteX = 0;
+        this.spriteY = 450;
+    },
+    reset () {
+        this.x = 300;
+        this.y = _index1.HEIGHT - 223;
+        flashInterval = null;
+        this.stopWalk();
+    },
+    walk () {
+        if (walkInterval) return null;
+        walkInterval = setInterval(()=>{
+            this.spriteX += 150;
+            if (this.spriteX === 600) {
+                this.spriteX = 0;
+                this.spriteY += 150;
+                if (this.spriteY === 600) this.spriteY = 0;
+            }
+        }, 75);
     }
 };
-function getScoreColor(score) {
-    if (score > 15) return _index1.COLORS.GREEN;
-    if (score >= 10) return _index1.COLORS.SOFT_GREEN;
-    if (score > 5) return _index1.COLORS.WHITE;
-    return _index1.COLORS.RED;
-}
-function playAudioBasedOnScore(score) {
-    if (score <= 0) _audio1.playAudio(_audio.laughLow);
-    if (score === 10) _audio1.playAudio(_audio.laugh);
-    if (score === 15) _audio1.playAudio(_audio.goodBoy, 2500);
-    if (score === 20) _audio1.playAudio(_audio.merry);
-}
 
-},{"../global-state":"jmmMe","../data/audio":"cruN6","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","../data/index":"86RTc","../canvas/index":"8g4Lj","../engine/audio":"5Kiec"}],"5Kiec":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "playAudio", ()=>playAudio
-);
-function playAudio(audio, timeout = 2000) {
-    audio.play();
-    setTimeout(()=>{
-        audio.pause();
-        audio.currentTime = 0;
-    }, timeout);
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"h64g5"}],"8Ixhp":[function(require,module,exports) {
+},{"canvas/index":"8g4Lj","data/images":"lt8Lu","data/index":"86RTc","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5"}],"8Ixhp":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "angryLetters", ()=>angryLetters
@@ -1033,15 +1049,15 @@ parcelHelpers.export(exports, "refillAngryLetters", ()=>refillAngryLetters
 );
 parcelHelpers.export(exports, "drawAngryLetters", ()=>drawAngryLetters
 );
-var _index = require("./index");
-var _index1 = require("../canvas/index");
-var _audio = require("../data/audio");
-var _index2 = require("../data/index");
-var _images = require("../data/images");
+var _index = require("letters/index");
+var _index1 = require("canvas/index");
+var _audio = require("data/audio");
+var _index2 = require("data/index");
+var _images = require("data/images");
 var _audio1 = require("../engine/audio");
-var _collision = require("../engine/collision");
+var _collision = require("engine/collision");
 var _globalState = require("../global-state");
-var _index3 = require("../score/index");
+var _index3 = require("score/index");
 class AngryLetter extends _index.Letter {
     constructor(x, y, width, height){
         super(x, y, width, height);
@@ -1078,69 +1094,13 @@ function drawAngryLetters(score, santa) {
     });
 }
 
-},{"../global-state":"jmmMe","../data/images":"lt8Lu","../engine/collision":"hFAvh","../data/audio":"cruN6","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","./index":"1YnLD","../data/index":"86RTc","../canvas/index":"8g4Lj","../score/index":"2Vba4","../engine/audio":"5Kiec"}],"cKTkl":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "playGame", ()=>playGame
-);
-var _index = require("./index");
-var _images = require("../data/images");
-var _index1 = require("../data/index");
-var _globalState = require("../global-state");
-var _index2 = require("../score/index");
-var _index3 = require("../letters/index");
-var _snow = require("./snow");
-var _index4 = require("../santa/index");
-var _angry = require("../letters/angry");
-function drawGame() {
-    _index.canvasGame.fillStyle = _index1.COLORS.SNOW_WHITE;
-    _index.canvasGame.fillRect(0, _index1.HEIGHT - 80, _index1.WIDTH, 210);
-    _index4.santa.draw();
-    _index2.scoreBox.update(_globalState.score);
-    _snow.snow.draw();
-    if (_globalState.score <= 0 || _globalState.score >= 20) {
-        const newWidth = _index1.HEIGHT * 0.64;
-        _index.canvasGame.drawImage(_globalState.score < 20 ? _images.gameoverImg : _images.winImg, _index1.WIDTH / 2 - newWidth / 2, 100, newWidth, _index1.HEIGHT * 0.7);
-        _index.canvasGame.font = "bold 25px sans-serif";
-        _index.canvasGame.fillText("PRESS ENTER TO PLAY AGAIN", _index1.WIDTH / 2, 70);
-        _index4.santa.stopFlash();
-        return;
-    }
-    _index3.drawLetters(_globalState.score, _index4.santa);
-    _angry.drawAngryLetters(_globalState.score, _index4.santa);
-}
-function playGame() {
-    _index.canvasGame.clearRect(0, 0, _index1.WIDTH, _index1.HEIGHT);
-    drawGame();
-    requestAnimationFrame(()=>playGame()
-    );
-}
-
-},{"./index":"8g4Lj","../data/images":"lt8Lu","../data/index":"86RTc","../global-state":"jmmMe","../score/index":"2Vba4","../letters/index":"1YnLD","./snow":"231wK","../santa/index":"cPV7I","../letters/angry":"8Ixhp","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5"}],"231wK":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "snow", ()=>snow
-);
-var _index = require("./index");
-var _index1 = require("../data/index");
-var _images = require("../data/images");
-const snow = {
-    x: 0,
-    y: _index1.HEIGHT - 235,
-    width: _index1.WIDTH,
-    height: 300,
-    draw () {
-        _index.canvasGame.drawImage(_images.snowImg, this.x, this.y, this.width, this.height);
-    }
-};
-
-},{"./index":"8g4Lj","../data/index":"86RTc","../data/images":"lt8Lu","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5"}],"lcVQO":[function(require,module,exports) {
+},{"letters/index":"1YnLD","canvas/index":"8g4Lj","data/audio":"cruN6","data/index":"86RTc","data/images":"lt8Lu","../engine/audio":"5Kiec","engine/collision":"hFAvh","score/index":"2Vba4","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","../global-state":"jmmMe"}],"lcVQO":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "animateSky", ()=>animateSky
 );
-var _index = require("./index");
-var _index1 = require("../data/index");
+var _index = require("canvas/index");
+var _index1 = require("data/index");
 const flakes = [
     ...Array(_index1.MAX_FLAKES)
 ].map((_)=>({
@@ -1178,6 +1138,47 @@ function animateSky() {
     setInterval(drawFlakes, 25);
 }
 
-},{"./index":"8g4Lj","../data/index":"86RTc","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5"}]},["dugOs","bNVhn"], "bNVhn", "parcelRequire94c2")
+},{"canvas/index":"8g4Lj","data/index":"86RTc","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5"}],"exR97":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initControls", ()=>initControls
+);
+var _images = require("data/images");
+var _globalState = require("../global-state");
+var _angry = require("letters/angry");
+var _index = require("letters/index");
+var _index1 = require("santa/index");
+function initControls() {
+    document.onkeydown = (event)=>{
+        switch(event.keyCode){
+            case 13:
+                restart();
+                break;
+        }
+        if (_globalState.score >= 20 || _globalState.score <= 0) return null;
+        _index1.santa.walk();
+        switch(event.keyCode){
+            case 37:
+                _index1.santa.image = _images.santaReverse;
+                _index1.santa.x -= 20;
+                break;
+            case 39:
+                _index1.santa.image = _images.santaImg;
+                _index1.santa.x += 20;
+                break;
+        }
+    };
+    document.onkeyup = ()=>{
+        _index1.santa.stopWalk();
+    };
+}
+function restart() {
+    _globalState.updateScore(8);
+    _index1.santa.reset();
+    _angry.refillAngryLetters();
+    _index.refillLetters();
+}
+
+},{"data/images":"lt8Lu","letters/angry":"8Ixhp","letters/index":"1YnLD","santa/index":"cPV7I","@parcel/transformer-js/src/esmodule-helpers.js":"h64g5","../global-state":"jmmMe"}]},["dugOs","bNVhn"], "bNVhn", "parcelRequire94c2")
 
 //# sourceMappingURL=index.e4136dfd.js.map

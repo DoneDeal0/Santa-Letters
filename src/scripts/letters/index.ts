@@ -1,12 +1,12 @@
-import { canvasGame } from "../canvas/index";
-import { HEIGHT, WIDTH } from "../data/index";
-import { bell } from "../data/audio";
-import { letterImg, letterCatch } from "../data/images";
-import { playAudio } from "../engine/audio";
-import { isCollision } from "../engine/collision";
+import { canvasGame } from "canvas/index";
+import { HEIGHT, WIDTH } from "data/index";
+import { bell } from "data/audio";
+import { letterImg, letterCatch } from "data/images";
+import { playAudio } from "engine/audio";
+import { isCollision } from "engine/collision";
 import { score, updateScore } from "../global-state";
-import { ILetter, ISanta } from "../../models/index";
-import { scoreBox } from "../score/index";
+import { ILetter, ISanta } from "models/index";
+import { scoreBox } from "score/index";
 
 export class Letter {
   x: number;

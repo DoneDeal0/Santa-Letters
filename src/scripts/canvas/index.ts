@@ -1,4 +1,4 @@
-import { HEIGHT, WIDTH } from "../data/index";
+import { HEIGHT, WIDTH } from "data/index";
 
 const skyNode: HTMLCanvasElement = document.querySelector("#sky");
 skyNode.width = WIDTH;

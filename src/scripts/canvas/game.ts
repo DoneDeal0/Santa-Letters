@@ -1,12 +1,12 @@
-import { canvasGame } from "./index";
-import { gameoverImg, winImg } from "../data/images";
-import { HEIGHT, WIDTH, COLORS } from "../data/index";
+import { canvasGame } from "canvas/index";
+import { gameoverImg, winImg } from "data/images";
+import { HEIGHT, WIDTH, COLORS } from "data/index";
 import { score } from "../global-state";
-import { scoreBox } from "../score/index";
-import { drawLetters } from "../letters/index";
-import { snow } from "./snow";
-import { santa } from "../santa/index";
-import { drawAngryLetters } from "../letters/angry";
+import { scoreBox } from "score/index";
+import { drawLetters } from "letters/index";
+import { snow } from "canvas/snow";
+import { santa } from "santa/index";
+import { drawAngryLetters } from "letters/angry";
 
 function drawGame() {
   canvasGame.fillStyle = COLORS.SNOW_WHITE;

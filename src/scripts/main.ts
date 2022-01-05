@@ -1,7 +1,7 @@
-import { playGame } from "./canvas/game";
-import { animateSky } from "./canvas/sky";
-import { theme } from "./data/audio";
-import { initControls } from "./engine/controls";
+import { playGame } from "canvas/game";
+import { animateSky } from "canvas/sky";
+import { theme } from "data/audio";
+import { initControls } from "engine/controls";
 
 const startScreen = document.querySelector<HTMLElement>("#start-screen");
 const start = document.querySelector<HTMLElement>("#start-button");

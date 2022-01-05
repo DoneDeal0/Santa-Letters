@@ -1,7 +1,7 @@
-import { canvasGame } from "../canvas/index";
-import { santaImg } from "../data/images";
-import { HEIGHT } from "../data/index";
-import { ISanta } from "../../models/index";
+import { canvasGame } from "canvas/index";
+import { santaImg } from "data/images";
+import { HEIGHT } from "data/index";
+import { ISanta } from "models/index";
 
 let flashInterval: NodeJS.Timeout = null;
 let walkInterval: NodeJS.Timeout = null;

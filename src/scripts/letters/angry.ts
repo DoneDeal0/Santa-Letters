@@ -1,13 +1,13 @@
-import { Letter } from "./index";
-import { canvasGame } from "../canvas/index";
-import { pain } from "../data/audio";
-import { HEIGHT, WIDTH } from "../data/index";
-import { angryLetterImg } from "../data/images";
+import { Letter } from "letters/index";
+import { canvasGame } from "canvas/index";
+import { pain } from "data/audio";
+import { HEIGHT, WIDTH } from "data/index";
+import { angryLetterImg } from "data/images";
 import { playAudio } from "../engine/audio";
-import { isCollision } from "../engine/collision";
+import { isCollision } from "engine/collision";
 import { score, updateScore } from "../global-state";
-import { ILetter, ISanta } from "../../models/index";
-import { scoreBox } from "../score/index";
+import { ILetter, ISanta } from "models/index";
+import { scoreBox } from "score/index";
 
 class AngryLetter extends Letter {
   constructor(x: number, y: number, width: number, height: number) {

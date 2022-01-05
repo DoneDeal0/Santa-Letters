@@ -1,3 +1,18 @@
 {
-  "compilerOptions": { "module": "esnext" }
+  "compilerOptions": {
+    "module": "esnext",
+    "baseUrl": "./",
+    "paths": {
+      "assets": ["src/assets/*"],
+      "scripts": ["src/scripts/*"],
+      "canvas": ["src/scripts/canvas/*"],
+      "data": ["src/scripts/data/*"],
+      "engine": ["src/scripts/engine/*"],
+      "letters": ["src/scripts/letters/*"],
+      "santa": ["src/scripts/santa/*"],
+      "score": ["src/scripts/score/*"],
+      "styles": ["src/styles/*"],
+      "models": ["src/models/*"],
+    }
+  }
 }

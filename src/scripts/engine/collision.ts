@@ -1,4 +1,4 @@
-import { ILetter, ISanta } from "../../models/index";
+import { ILetter, ISanta } from "models/index";
 
 export function isCollision(santa: ISanta, letter: ILetter): boolean {
   return (

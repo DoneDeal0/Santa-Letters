@@ -1,6 +1,6 @@
-import { canvasSky } from "./index";
-import { WIDTH, HEIGHT, MAX_FLAKES, FLOOR_HEIGHT, COLORS } from "../data/index";
-import { IFlake } from "../../models/index";
+import { canvasSky } from "canvas/index";
+import { WIDTH, HEIGHT, MAX_FLAKES, FLOOR_HEIGHT, COLORS } from "data/index";
+import { IFlake } from "models/index";
 
 const flakes: IFlake[] = [...Array(MAX_FLAKES)].map((_) => ({
   x: Math.random() * WIDTH,

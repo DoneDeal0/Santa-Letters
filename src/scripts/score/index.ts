@@ -1,9 +1,9 @@
-import { canvasGame } from "../canvas/index";
-import { laughLow, laugh, goodBoy, merry } from "../data/audio";
-import { COUNTER_RADIUSES, COLORS, WIDTH } from "../data/index";
-import { playAudio } from "../engine/audio";
+import { canvasGame } from "canvas/index";
+import { laughLow, laugh, goodBoy, merry } from "data/audio";
+import { COUNTER_RADIUSES, COLORS, WIDTH } from "data/index";
+import { playAudio } from "engine/audio";
 import { updateScoreRadius, radius } from "../global-state";
-import { IScore } from "../../models/index";
+import { IScore } from "models/index";
 
 let zoomInterval: NodeJS.Timeout = null;
 let flashInterval: NodeJS.Timeout = null;

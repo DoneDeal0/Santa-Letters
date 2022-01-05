@@ -1,7 +1,7 @@
-import { canvasGame } from "./index";
-import { HEIGHT, WIDTH } from "../data/index";
-import { snowImg } from "../data/images";
-import { ISnow } from "../../models/index";
+import { canvasGame } from "canvas/index";
+import { HEIGHT, WIDTH } from "data/index";
+import { snowImg } from "data/images";
+import { ISnow } from "models/index";
 
 export const snow: ISnow = {
   x: 0,

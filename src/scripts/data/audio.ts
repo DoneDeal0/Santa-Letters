@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { AudioFile } from "../../models/index";
+import { AudioFile } from "models/index";
 const bellSound = new URL("../../assets/audio/santa-bell.mp3", import.meta.url);
 const goodBoySound = new URL("../../assets/audio/santa-goodboy.mp3", import.meta.url);
 const laughSound = new URL("../../assets/audio/santa-laugh.mp3", import.meta.url);
